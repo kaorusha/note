@@ -89,8 +89,38 @@ cd yay/
 makepkg -si
 cd ../
 ```
+* change locale setting to support UTF-8 for solving following error
+>   -> ERROR: Locale must support UTF-8. See https://wiki.archlinux.org/index.php/locale or https://wiki.archlinux.org/index.php/locale </br>
+> error making: ros2-foxy
+* config git for solving following error
+```sh
+  git config --global user.email "you@example.com"
+  git config --global user.name "Your Name"
+```
+> fatal: unable to auto-detect email address (got 'alarm@alarmpi.(none)') </br>
+> ==> ERROR: A failure occurred in prepare(). </br>
+>    Aborting... 
+* install [ros2-arch-deps](https://aur.archlinux.org/packages/ros2-arch-deps/)
+```sh
+yay -S ros2-arch-deps
+```
+* install [fastcdr](https://aur.archlinux.org/packages/fastcdr/)
+* install [foonathan_memory](https://aur.archlinux.org/packages/foonathan_memory/)
+>==> ERROR: foonathan_memory is not available for the 'armv6h' architecture.
 * install [ros2-foxy](https://aur.archlinux.org/packages/ros2-foxy/)
 ```sh
 yay -S ros2-foxy
 ```
+Before `makepkg` started, the `sudo ` asked the password. Than starts building.
+>Get error:
+>Failed   <<< fastrtps [5h 0min 19s, exited with code 2]
+>                                             
+>Summary: 42 packages finished [5h 55min 54s]
+>  1 package failed: fastrtps
+>  3 packages had stderr output: fastcdr fastrtps foonathan_memory_vendor
+>  266 packages not processed
+>==> ERROR: A failure occurred in build().
+>    Aborting...
+
 after this step, 38M of `/boot` and 3.8G `/` space are used.
+## configure environment
