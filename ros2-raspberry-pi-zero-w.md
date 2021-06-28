@@ -48,7 +48,7 @@ nano /etc/wpa_supplicant/wpa_supplicant-wlan0.conf
 add multiple SSID as [raspberry doc](https://www.raspberrypi.org/documentation/configuration/wireless/wireless-cli.md)
 * complete the rest steps.
 > Note: Raspberry Pi zero w does not supporting 5G hz wifi
-## installing ROS2 packages
+## Installing base packages
 * install pacman [base-devel](https://wiki.archlinux.org/title/Arch_User_Repository#Getting_started)
 ```sh
 pacman -S --needed base-devel
@@ -75,6 +75,7 @@ chmod -w /etc/sudoers
 exit 
 # now the sudo command is enabled for the user
 ```
+## Install AUR helper
 The [instruction](https://wiki.archlinux.org/index.php/ROS#ROS_2) lists the dependencies on AUR package site.
 Since these dependencies included AUR packages which can't be installed through `pacman`, installing one of [AUR helpers](https://wiki.archlinux.org/title/AUR_helpers) for saving time from manual cloning and installing one by one. 
 > Warn: Users are responsible for checking safety of these AUR packages.
@@ -89,6 +90,7 @@ cd yay/
 makepkg -si
 cd ../
 ```
+## Config Locale and Git 
 * change locale setting to support UTF-8 for solving following error
 >   -> ERROR: Locale must support UTF-8. See https://wiki.archlinux.org/index.php/locale or https://wiki.archlinux.org/index.php/locale </br>
 > error making: ros2-foxy
@@ -100,13 +102,14 @@ cd ../
 > fatal: unable to auto-detect email address (got 'alarm@alarmpi.(none)') </br>
 > ==> ERROR: A failure occurred in prepare(). </br>
 >    Aborting... 
-* install [ros2-arch-deps](https://aur.archlinux.org/packages/ros2-arch-deps/)
+## Install ROS2
+### install [ros2-arch-deps](https://aur.archlinux.org/packages/ros2-arch-deps/)
 ```sh
 yay -S ros2-arch-deps
 ```
-* install [fastcdr](https://aur.archlinux.org/packages/fastcdr/)
-* install [foonathan_memory](https://aur.archlinux.org/packages/foonathan_memory/)
->==> ERROR: foonathan_memory is not available for the 'armv6h' architecture.
+### Fast-rtps 
+the fast rtps related packages can not build together with `ros2-foxy`, need pre-installation as [manual instruction](https://fast-rtps.docs.eprosima.com/en/v2.0.0/installation/sources/sources.html#manual-installation) steps.
+> note: need `sudo` install
 * install [ros2-foxy](https://aur.archlinux.org/packages/ros2-foxy/)
 ```sh
 yay -S ros2-foxy
