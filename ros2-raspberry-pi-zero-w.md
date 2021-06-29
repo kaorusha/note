@@ -102,7 +102,7 @@ cd ../
 > fatal: unable to auto-detect email address (got 'alarm@alarmpi.(none)') </br>
 > ==> ERROR: A failure occurred in prepare(). </br>
 >    Aborting... 
-## Install ROS2
+## Install ROS2 (not successful)
 ### install [ros2-arch-deps](https://aur.archlinux.org/packages/ros2-arch-deps/)
 ```sh
 yay -S ros2-arch-deps
@@ -125,5 +125,8 @@ Before `makepkg` started, the `sudo ` asked the password. Than starts building.
 >==> ERROR: A failure occurred in build().
 >    Aborting...
 
-after this step, 38M of `/boot` and 3.8G `/` space are used.
-## configure environment
+## cross compining on the top of raspbian OS
+[reference](https://answers.ros.org/question/299588/can-ros2-run-on-raspberry-pi-zero-w/)
+### headless SSH
+* editing the `wpa_supplicant.conf` as the [instruction](https://www.raspberrypi.org/documentation/configuration/wireless/wireless-cli.md)
+* SSH can be enabled by placing a file named `ssh` in /boot, as [this step](https://www.raspberrypi.org/documentation/remote-access/ssh/)
