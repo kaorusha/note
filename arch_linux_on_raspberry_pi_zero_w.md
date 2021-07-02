@@ -1,22 +1,10 @@
-# Install ROS2 for raspberry pi zero w
-personal note for installing Arch Linux on **Raspberry Pi zero w**, and ROS2
-
-[ros wiki](https://answers.ros.org/question/299588/can-ros2-run-on-raspberry-pi-zero-w/) suggest 2 method for runnung ROS2 on raspberry pi zero w: 
-* **on Arch Linux**: could not build ros2-foxy through pacman, because fail of building fast-rtps
-* **on Raspbian(Official OS for Raspberry Pi zero w)**
-
-Both method highly suggest cross compiling (runs really really much faster)
-> note: for installing ROS2 on Raspbian on [raspberry pi 4b](https://medium.com/swlh/raspberry-pi-ros-2-camera-eef8f8b94304)
-## installing Arch Linux
-Px4 user document recommended [ROS2](https://docs.px4.io/master/en/ros/ros2.html) for better support:
->This contrasts with ROS (1), which communicates with PX4 via MAVROS/MAVLink, hiding PX4's internal architecture and many of its conventions (e.g. frame and unit conversions).
->ROS 2 (and the bridge) will become easier to use as the development team provide ROS 2 APIs to abstract PX4 conventions, along with examples demonstrating their use. These are planned in the near-term PX4 roadmap.
-
+# installing Arch Linux
+personal note for installing Arch Linux on **Raspberry Pi zero w**, but ROS2 was not successful compiled.
 The [raspberry-pi-zero-operating-system-list](https://www.kodifiretvstick.com/raspberry-pi-zero-operating-system-list/)  not including Ubuntu (official OS for ROS 2 [Foxy](https://docs.ros.org/en/foxy/Installation/Ubuntu-Development-Setup.html)), so using Arch Linux as alternative.
-### host setup
+## host setup
 Ubuntu 18.04, not VM (my VM can not read SD card) 
 (this [repo](https://github.com/austinstig/ros2-raspberry-pi-zero-w) use VM to do crosscompiler) 
-### create SD image
+## create SD image
 * follow official [installation](https://archlinuxarm.org/platforms/armv6/raspberry-pi) steps
 before step 5, run
 ```sh
@@ -37,7 +25,7 @@ follow this [repo](https://github.com/helotism/helotism/issues/8) to update the 
 >bsdtar: Error exit delayed from previous errors. </br>
 
 before step 8, if using headless access:
-### add wifi config without a monitor, so we can SSH headless
+## add wifi config without a monitor, so we can SSH headless
 * follow the [steps](https://ladvien.com/installing-arch-linux-raspberry-pi-zero-w/)
 > ./al-wpa-setup.sh: 5: ./al-wpa-setup.sh: [[: not found </br>
 > ./al-wpa-setup.sh: 14: ./al-wpa-setup.sh: [[: not found </br>
@@ -55,7 +43,7 @@ nano /etc/wpa_supplicant/wpa_supplicant-wlan0.conf
 add multiple SSID as [raspberry doc](https://www.raspberrypi.org/documentation/configuration/wireless/wireless-cli.md)
 * complete the rest steps.
 > Note: Raspberry Pi zero w does not supporting 5G hz wifi
-### Installing base packages
+## Installing base packages
 * install pacman [base-devel](https://wiki.archlinux.org/title/Arch_User_Repository#Getting_started)
 ```sh
 pacman -S --needed base-devel
@@ -82,7 +70,7 @@ chmod -w /etc/sudoers
 exit 
 # now the sudo command is enabled for the user
 ```
-### Install AUR helper
+## Install AUR helper
 The [instruction](https://wiki.archlinux.org/index.php/ROS#ROS_2) lists the dependencies on AUR package site.
 Since these dependencies included AUR packages which can't be installed through `pacman`, installing one of [AUR helpers](https://wiki.archlinux.org/title/AUR_helpers) for saving time from manual cloning and installing one by one. 
 > Warn: Users are responsible for checking safety of these AUR packages.
@@ -97,7 +85,7 @@ cd yay/
 makepkg -si
 cd ../
 ```
-### Config Locale and Git 
+## Config Locale and Git 
 * change locale setting to support UTF-8 for solving following error
 >   -> ERROR: Locale must support UTF-8. See https://wiki.archlinux.org/index.php/locale or https://wiki.archlinux.org/index.php/locale </br>
 > error making: ros2-foxy
@@ -109,15 +97,15 @@ cd ../
 > fatal: unable to auto-detect email address (got 'alarm@alarmpi.(none)') </br>
 > ==> ERROR: A failure occurred in prepare(). </br>
 >    Aborting... 
-### Install ROS2 (not successful)
-#### install [ros2-arch-deps](https://aur.archlinux.org/packages/ros2-arch-deps/)
+# Install ROS2 (not successful)
+## install [ros2-arch-deps](https://aur.archlinux.org/packages/ros2-arch-deps/)
 ```sh
 yay -S ros2-arch-deps
 ```
-#### Fast-rtps 
+## Fast-rtps 
 the fast rtps related packages can not build together with `ros2-foxy`, need pre-installation as [manual instruction](https://fast-rtps.docs.eprosima.com/en/v2.0.0/installation/sources/sources.html#manual-installation) steps.
 > note: need `sudo` install
-#### install [ros2-foxy](https://aur.archlinux.org/packages/ros2-foxy/)
+## install [ros2-foxy](https://aur.archlinux.org/packages/ros2-foxy/)
 ```sh
 yay -S ros2-foxy
 ```
@@ -131,10 +119,3 @@ Before `makepkg` started, the `sudo ` asked the password. Than starts building.
 >  266 packages not processed
 >==> ERROR: A failure occurred in build().
 >    Aborting...
-
-## Installing raspbian OS
-### cross compining on the top of raspbian OS
-[reference](https://github.com/cyberbotics/epuck_ros2/tree/master/installation/cross_compile)
-### headless SSH
-* editing the `wpa_supplicant.conf` as the [instruction](https://www.raspberrypi.org/documentation/configuration/wireless/wireless-cli.md)
-* SSH can be enabled by placing a file named `ssh` in /boot, as [this step](https://www.raspberrypi.org/documentation/remote-access/ssh/)
