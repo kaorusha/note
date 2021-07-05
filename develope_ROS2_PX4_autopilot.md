@@ -1,6 +1,6 @@
 # Setup and use ROS 2 with PX4
 Compenion computer setup.
-This document is the personal note as following [instructions](https://docs.px4.io/master/en/ros/ros2_comm.html#installation-setup) for doing setup. (some additional package needed for **raspberry pi zero w** with **Raspbian** OS).
+This document is the personal note as following [instructions](https://docs.px4.io/master/en/ros/ros2_comm.html#installation-setup) for doing setup. (The supporting OS is Ubuntu 18.04 or higher, so some additional package needed for **raspberry pi zero w** with **Raspbian** OS).
 
 Px4 user document recommended [ROS2](https://docs.px4.io/master/en/ros/ros2.html) for better support:
 >This contrasts with ROS (1), which communicates with PX4 via MAVROS/MAVLink, hiding PX4's internal architecture and many of its conventions (e.g. frame and unit conversions).
@@ -54,10 +54,3 @@ sudo apt-get install libgtest-dev
 sudo apt-get install libgmock-dev
 ```
 * Do the rest cmake as the [instruction](https://docs.px4.io/master/en/dev_setup/fast-dds-installation.html#fast-rtps-dds)
-## Install ROS2 for raspberry pi zero w
-[ros wiki](https://answers.ros.org/question/299588/can-ros2-run-on-raspberry-pi-zero-w/) suggest 2 method for runnung ROS2 on raspberry pi zero w: 
-* **on Arch Linux**: could not build ros2-foxy through pacman, because fail of building fast-rtps
-* **on Raspbian(Official OS for Raspberry Pi zero w)**
-
-Both method highly suggest cross compiling (runs really really much faster)
-> note: for installing ROS2 on Raspbian on [raspberry pi 4b](https://medium.com/swlh/raspberry-pi-ros-2-camera-eef8f8b94304)
