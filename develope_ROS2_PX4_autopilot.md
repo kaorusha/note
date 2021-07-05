@@ -6,8 +6,27 @@ Px4 user document recommended [ROS2](https://docs.px4.io/master/en/ros/ros2.html
 >This contrasts with ROS (1), which communicates with PX4 via MAVROS/MAVLink, hiding PX4's internal architecture and many of its conventions (e.g. frame and unit conversions).
 >ROS 2 (and the bridge) will become easier to use as the development team provide ROS 2 APIs to abstract PX4 conventions, along with examples demonstrating their use. These are planned in the near-term PX4 roadmap.
 
-## Fast DDS Installation
-see [PX4 doc](https://docs.px4.io/master/en/dev_setup/fast-dds-installation.html)
+## Fast DDS Installation from Sources
+see [PX4 doc](https://docs.px4.io/master/en/ros/ros2_comm.html#install-fast-dds)
+requirement:
+* Fast RTPS(DDS) 2.0.0 (or later)
+* Fast-RTPS-Gen 1.0.4 (not later!)
+### Requirement
+Follow the Fast DDS official [installation manual](https://fast-dds.docs.eprosima.com/en/latest/installation/sources/sources_linux.html)
+* (on raspbian)Install gtest and gmock for raspbian:
+```sh
+sudo apt-get install libgtest-dev
+sudo apt-get install libgmock-dev
+```
+### Use `Colcon` or `CMake`
+Choose `Colcon` installation for `Raspbian`, and reboot after installing vcstools. 
+>Note: `CMake` is suggested by PX4 for `Ubuntu` and will face the following error on `Raspbian`:</br>
+>/usr/bin/ld: cannot find /usr/share/lintian/overrides: file format not recognized
+>collect2: error: ld returned 1 exit status
+>make[2]: *** [src/cpp/CMakeFiles/fastrtps.dir/build.make:2953: src/cpp/libfastrtps.so.2.0.0] Error 1
+>make[1]: *** [CMakeFiles/Makefile2:1022: src/cpp/CMakeFiles/fastrtps.dir/all] Error 2
+>make: *** [Makefile:163: all] Error 2
+
 ### Prerequisites
 #### Java JDK 8
 Required by `gradle`. Check by running:
@@ -31,26 +50,3 @@ For rasobian OS, install zip first:
 ```sh
 sudo apt-get install zip unzip
 ``` 
-#### Foonathan memory
-For raspbian OS, install git and cmake first:
-```sh
-sudo apt update
-sudo apt-get install git
-sudo apt install -y cmake
-cmake --version
-``` 
-### Fast DDS Installation from Sources
-* (on raspbian)Install libssl for raspbian to solve the following error:
-```sh
-sudo apt install libssl-dev
-```
->CMake Error at /usr/share/cmake-3.16/Modules/FindPackageHandleStandardArgs.cmake:146 (message):
->  Could NOT find OpenSSL, try to set the path to OpenSSL root folder in the
->  system variable OPENSSL_ROOT_DIR (missing: OPENSSL_CRYPTO_LIBRARY
->  OPENSSL_INCLUDE_DIR)
-* (on raspbian)Install gtest and gmock for raspbian:
-```sh
-sudo apt-get install libgtest-dev
-sudo apt-get install libgmock-dev
-```
-* Do the rest cmake as the [instruction](https://docs.px4.io/master/en/dev_setup/fast-dds-installation.html#fast-rtps-dds)
