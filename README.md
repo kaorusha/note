@@ -3,7 +3,7 @@ personal note and reference
 ## OS
 [Arch on pi zero w](arch_linux_on_raspberry_pi_zero_w.md)
 Note: Can't compile ROS2 fast-rtps package with AUR ros-foxy package.
-[Raspbian on pi zero w](raspbian_headless_ssh.md) 
+[Raspbian on pi zero w](raspbian_on_raspberry_pi_zero.md) 
 Install raspbian fist and than use cross compile as the reference instruction.
 ## Fast DDS 
 [install Fast DDS](develope_ROS2_PX4_autopilot.md)
