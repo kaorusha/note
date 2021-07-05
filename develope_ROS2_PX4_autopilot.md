@@ -6,7 +6,7 @@ Px4 user document recommended [ROS2](https://docs.px4.io/master/en/ros/ros2.html
 >This contrasts with ROS (1), which communicates with PX4 via MAVROS/MAVLink, hiding PX4's internal architecture and many of its conventions (e.g. frame and unit conversions).
 >ROS 2 (and the bridge) will become easier to use as the development team provide ROS 2 APIs to abstract PX4 conventions, along with examples demonstrating their use. These are planned in the near-term PX4 roadmap.
 
-## Fast DDS Installation from Sources
+## Fast DDS library Installation from Sources
 see [PX4 doc](https://docs.px4.io/master/en/ros/ros2_comm.html#install-fast-dds)
 requirement:
 * Fast RTPS(DDS) 2.0.0 (or later)
@@ -19,14 +19,17 @@ sudo apt-get install libgtest-dev
 sudo apt-get install libgmock-dev
 ```
 ### Use `Colcon` or `CMake`
-Choose `Colcon` installation for `Raspbian`, and reboot after installing vcstools. 
->Note: `CMake` is suggested by PX4 for `Ubuntu` and will face the following error on `Raspbian`:</br>
+Choose `Colcon` installation for `Raspbian`, and reboot after installing vcstools. If possible, use cross compiling because compile on Raspberry Pi zero w took really long time:
+>Finished <<< fastrtps [4h 28min 9s]                                                            
+Summary: 3 packages finished [4h 28min 35s]
+
+`CMake` is suggested by PX4 for `Ubuntu` and will face the following error on `Raspbian`:</br>
 >/usr/bin/ld: cannot find /usr/share/lintian/overrides: file format not recognized
 >collect2: error: ld returned 1 exit status
 >make[2]: *** [src/cpp/CMakeFiles/fastrtps.dir/build.make:2953: src/cpp/libfastrtps.so.2.0.0] Error 1
 >make[1]: *** [CMakeFiles/Makefile2:1022: src/cpp/CMakeFiles/fastrtps.dir/all] Error 2
 >make: *** [Makefile:163: all] Error 2
-
+## Fast DDS-Gen installation
 ### Prerequisites
 #### Java JDK 8
 Required by `gradle`. Check by running:
@@ -50,3 +53,5 @@ For rasobian OS, install zip first:
 ```sh
 sudo apt-get install zip unzip
 ``` 
+### use v1.0.4
+using this [command](https://docs.px4.io/master/en/dev_setup/fast-dds-installation.html#fast-rtps-gen)

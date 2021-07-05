@@ -1,4 +1,4 @@
-# table of content
+# Table of Contents
 personal note and reference
 ## OS
 [Arch on pi zero w](arch_linux_on_raspberry_pi_zero_w.md)

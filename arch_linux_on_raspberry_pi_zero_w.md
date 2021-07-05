@@ -98,7 +98,9 @@ cd ../
 > ==> ERROR: A failure occurred in prepare(). </br>
 >    Aborting... 
 # Install ROS2 (not successful)
-## install [ros2-arch-deps](https://aur.archlinux.org/packages/ros2-arch-deps/)
+## cross compile ROS2 on Archlinux
+* [Note](https://github.com/austinstig/ros2-raspberry-pi-zero-w) of using cross compile tool `crosstool-ng`
+## Directly install [ros2-arch-deps](https://aur.archlinux.org/packages/ros2-arch-deps/)
 ```sh
 yay -S ros2-arch-deps
 ```
