@@ -3,7 +3,7 @@
 ### headless SSH
 * editing the `wpa_supplicant.conf` as the [instruction](https://www.raspberrypi.org/documentation/configuration/wireless/wireless-cli.md)
 * SSH can be enabled by placing a file named `ssh` in /boot, as [this step](https://www.raspberrypi.org/documentation/remote-access/ssh/)
-## Install ROS2 for raspberry pi zero w
+## Install ROS2 for raspberry pi zero w (not successful)
 [ros wiki](https://answers.ros.org/question/299588/can-ros2-run-on-raspberry-pi-zero-w/) suggest 2 method for runnung ROS2 on raspberry pi zero w: 
 * **on Arch Linux**: could not build ros2-foxy through pacman, because fail of building fast-rtps
 * **on Raspbian(Official OS for Raspberry Pi zero w)**
@@ -11,12 +11,22 @@
 Both method highly suggest cross compiling (runs really really much faster)
 > Another reference for installing ROS2 directory from source on Raspbian on [raspberry pi 4b](https://medium.com/swlh/raspberry-pi-ros-2-camera-eef8f8b94304)
 ### Cross compining on the top of raspbian OS
-[cross compile env docker](https://github.com/cyberbotics/epuck_ros2/tree/master/installation/cross_compile): cross compiling ros2 packages but can't build `cyclonedds` package as this [issue](https://github.com/cyberbotics/epuck_ros2/issues/26), also can't build `rosidl_typesupport_connext_cpp` because `RTI Connext` is not supported now so tried somthing else. 
-#### Tools of Cross compiling
+#### set locale
+[instruction](https://unix.stackexchange.com/questions/269159/problem-of-cant-set-locale-make-sure-lc-and-lang-are-correct)
+#### install dependency on raspberry pi zero
+```sh
+sudo apt-get install libeigen3-dev
+```
+[cross compile env docker](https://github.com/cyberbotics/epuck_ros2/tree/master/installation/cross_compile): cross compiling ros2 packages but can't build `cyclonedds` package as this [issue](https://github.com/cyberbotics/epuck_ros2/issues/26), also can't build `rosidl_typesupport_connext_cpp` because `RTI Connext` is not supported now so tried somthing else. The file structure is shown in this [paper](https://lukic.io/files/E-puck2_ROS2_Webots.pdf).
+### Tools of Cross compiling
 This [reference](https://raspberrypi.stackexchange.com/questions/103737/cross-compile-for-raspberry-pi-zero-from-ubuntu) answered cross compiler tools options for **raspberry pi zero**.
 * [RaspberryPi toolchain](https://github.com/raspberrypi/tools): older gcc 4.9.3, [example](https://medium.com/@au42/the-useful-raspberrypi-cross-compile-guide-ea56054de187) of compiling WiringPi library.
 * [RaspberryPi toolchains v3](https://github.com/abhiTronix/raspberry-pi-cross-compilers): newer gcc(8.3 and later) and with complete detail [steps](https://github.com/abhiTronix/raspberry-pi-cross-compilers/wiki/Cross-Compiler-CMake-Usage-Guide-with-rsynced-Raspberry-Pi-32-bit-OS#cross-compiler-cmake-usage-guide-with-rsynced-raspberry-pi-32-bit-os) for newbies and cross-compile `QT` as example. Note: Link Time Optimization [enable](https://github.com/abhiTronix/raspberry-pi-cross-compilers/wiki/Cross-Compiler:-Installation-Instructions#d-advanced-information) and [Flags](https://github.com/abhiTronix/raspberry-pi-cross-compilers#optimization-flags-involved)
 * [buildroot](https://buildroot.org/): has a PIZero (as well as PiZeroW) [target](https://git.buildroot.net/buildroot/tree/configs/raspberrypi0_defconfig)
 * [crosstool-NG](https://crosstool-ng.github.io/docs/introduction/): most popular (see [samples](https://github.com/crosstool-ng/crosstool-ng/tree/master/samples)) but `armv6-rpi-linux-gnueabi` is no longer exit and use `armv6-unknown-linux-gnueabi` for raspberry pi zero (and w).
 
-The [ROS 2 Doc](https://docs.ros.org/en/foxy/Guides/Cross-compilation.html) used [cross_compile](https://github.com/ros-tooling/cross_compile) package. Which support architecture `armhf`, which means arm processors (`armv8+`) that have hardware floating point support. **raspberry pi zero w** is `armv6` but work arounds to deal with the lack of floating point support on the original raspberry pi's.([reference](https://stackoverflow.com/questions/37790029/what-is-difference-between-arm64-and-armhf)). But ROS2 Foxy is not available in Debian Buster for `armhf` as this [issue](https://github.com/ros-tooling/cross_compile/issues/328).
+The [ROS 2 Doc](https://docs.ros.org/en/foxy/Guides/Cross-compilation.html) used [cross_compile](https://github.com/ros-tooling/cross_compile) package. Which support architecture `armhf`, which means arm processors (`armv8+`) that have hardware floating point support. **raspberry pi zero w** is `armv6` but work arounds to deal with the lack of floating point support on the original raspberry pi's.([reference](https://stackoverflow.com/questions/37790029/what-is-difference-between-arm64-and-armhf)). But ROS2 Foxy is not available in Debian Buster for `armhf` as this [issue](https://github.com/ros-tooling/cross_compile/issues/328) and this [answer](https://answers.ros.org/question/358733/unable-to-build-ros-foxy-for-arm32-architecture/)
+## Install ROS1 for raspberry pi zero w
+Following the [instruction](http://wiki.ros.org/ROSberryPi/Installing%20ROS%20Melodic%20on%20the%20Raspberry%20Pi)
+### update GPG key
+The old gpg key is deprecated and update using [new](https://discourse.ros.org/t/ros-gpg-key-expiration-incident/20669)
