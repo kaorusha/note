@@ -30,3 +30,8 @@ The [ROS 2 Doc](https://docs.ros.org/en/foxy/Guides/Cross-compilation.html) used
 Following the [instruction](http://wiki.ros.org/ROSberryPi/Installing%20ROS%20Melodic%20on%20the%20Raspberry%20Pi)
 ### update GPG key
 The old gpg key is deprecated and update using [new](https://discourse.ros.org/t/ros-gpg-key-expiration-incident/20669)
+### Adding Released Packages
+Install ros_comm and common_msgs
+```sh
+rosinstall_generator ros_comm common_msgs --rosdistro melodic --deps --wet-only --tar > melodic-custom_ros.rosinstall
+```
