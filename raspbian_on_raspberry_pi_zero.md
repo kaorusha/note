@@ -3,6 +3,15 @@
 ### headless SSH
 * editing the `wpa_supplicant.conf` as the [instruction](https://www.raspberrypi.org/documentation/configuration/wireless/wireless-cli.md)
 * SSH can be enabled by placing a file named `ssh` in /boot, as [this step](https://www.raspberrypi.org/documentation/remote-access/ssh/)
+## Install ROS1 for raspberry pi zero w
+Following the [instruction](http://wiki.ros.org/ROSberryPi/Installing%20ROS%20Melodic%20on%20the%20Raspberry%20Pi)
+### update GPG key
+The old gpg key is deprecated and update using [new](https://discourse.ros.org/t/ros-gpg-key-expiration-incident/20669)
+### Adding Released Packages
+Install `ros_comm` and `common_msgs`
+```sh
+rosinstall_generator ros_comm common_msgs --rosdistro melodic --deps --wet-only --tar > melodic-custom_ros.rosinstall
+```
 ## Install ROS2 for raspberry pi zero w (not successful)
 [ros wiki](https://answers.ros.org/question/299588/can-ros2-run-on-raspberry-pi-zero-w/) suggest 2 method for runnung ROS2 on raspberry pi zero w: 
 * **on Arch Linux**: could not build ros2-foxy through pacman, because fail of building fast-rtps
@@ -26,12 +35,3 @@ This [reference](https://raspberrypi.stackexchange.com/questions/103737/cross-co
 * [crosstool-NG](https://crosstool-ng.github.io/docs/introduction/): most popular (see [samples](https://github.com/crosstool-ng/crosstool-ng/tree/master/samples)) but `armv6-rpi-linux-gnueabi` is no longer exit and use `armv6-unknown-linux-gnueabi` for raspberry pi zero (and w).
 
 The [ROS 2 Doc](https://docs.ros.org/en/foxy/Guides/Cross-compilation.html) used [cross_compile](https://github.com/ros-tooling/cross_compile) package. Which support architecture `armhf`, which means arm processors (`armv8+`) that have hardware floating point support. **raspberry pi zero w** is `armv6` but work arounds to deal with the lack of floating point support on the original raspberry pi's.([reference](https://stackoverflow.com/questions/37790029/what-is-difference-between-arm64-and-armhf)). But ROS2 Foxy is not available in Debian Buster for `armhf` as this [issue](https://github.com/ros-tooling/cross_compile/issues/328) and this [answer](https://answers.ros.org/question/358733/unable-to-build-ros-foxy-for-arm32-architecture/)
-## Install ROS1 for raspberry pi zero w
-Following the [instruction](http://wiki.ros.org/ROSberryPi/Installing%20ROS%20Melodic%20on%20the%20Raspberry%20Pi)
-### update GPG key
-The old gpg key is deprecated and update using [new](https://discourse.ros.org/t/ros-gpg-key-expiration-incident/20669)
-### Adding Released Packages
-Install ros_comm and common_msgs
-```sh
-rosinstall_generator ros_comm common_msgs --rosdistro melodic --deps --wet-only --tar > melodic-custom_ros.rosinstall
-```
