@@ -8,10 +8,11 @@ Following the [instruction](http://wiki.ros.org/ROSberryPi/Installing%20ROS%20Me
 ### update GPG key
 The old gpg key is deprecated and update using [new](https://discourse.ros.org/t/ros-gpg-key-expiration-incident/20669)
 ### Adding Released Packages
-Install `ros_comm` and `common_msgs`
+Install `ros_comm` and `common_msgs`(this is for lidar msg)
 ```sh
 rosinstall_generator ros_comm common_msgs --rosdistro melodic --deps --wet-only --tar > melodic-custom_ros.rosinstall
 ```
+Note: This instruction compile ROS1 on raspberry pi directory and it needs 4-5 hours, so a better flow is using docker for cross compiling.(for future work)
 ## Install ROS2 for raspberry pi zero w (not successful)
 [ros wiki](https://answers.ros.org/question/299588/can-ros2-run-on-raspberry-pi-zero-w/) suggest 2 method for runnung ROS2 on raspberry pi zero w: 
 * **on Arch Linux**: could not build ros2-foxy through pacman, because fail of building fast-rtps
