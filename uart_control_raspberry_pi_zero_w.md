@@ -131,7 +131,8 @@ min = 0; time = 0;
 * Python library `serial` [example](http://www.python-exemplary.com/drucken.php?inhalt_mitte=raspi/en/serial.inc.php)
 * Modify the `/boot/config.txt` as [this](https://stackoverflow.com/questions/51234573/changing-the-baud-rate-of-a-serial-port-on-a-raspberry-pi-3) does the same. Doing POSIX manipulations first, then this to set the custom speed, works fine on the built-in UART of the Raspberry Pi to get a 250k baud rate. So as well as the POSIX standard rates, you can have pretty much any integer factor of 16M, up to at least 1M like [this](https://fw.hardijzer.nl/?p=138).
 
-----
+```sh
+# log from raspberry pi
 /dev/ttyAMA0    uart port
 /dev/ttyS0    uart port
 FOUND LiDAR_LD06
@@ -189,3 +190,4 @@ parse sec = 0.0909675	assem sec = 12.0503
 ^C[LD06-2] killing on exit
 parse sec = 0.0737596	assem sec = 7.22158
 [rosout-1] killing on exit
+```
