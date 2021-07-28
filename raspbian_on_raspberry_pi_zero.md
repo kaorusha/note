@@ -1,4 +1,4 @@
-# raspbian on raspberry pi zero
+# raspbian on raspberry pi zero w
 ## Installing raspbian OS
 ### headless SSH
 * editing the `wpa_supplicant.conf` as the [instruction](https://www.raspberrypi.org/documentation/configuration/wireless/wireless-cli.md)
@@ -13,6 +13,52 @@ Install `ros_comm` and `common_msgs`(this is for lidar msg)
 rosinstall_generator ros_comm common_msgs --rosdistro melodic --deps --wet-only --tar > melodic-custom_ros.rosinstall
 ```
 Note: This instruction compile ROS1 on raspberry pi directory and it needs 4-5 hours, so a better flow is using docker for cross compiling.(for future work)
+## Multiple machine running ros2 and ros1 and communicating with ros1_bridge
+Remote PC(ubuntu 20.04):
+* ros noetic
+* ros2 foxy
+* ros1_bridge
+If we just use std_msgs and no custom message is compiled and we can install via debian package, otherwise, clone the repo and build from source. See [readme](https://github.com/ros2/ros1_bridge).
+```sh
+sudo apt install ros-foxy-ros1-bridge
+```
+Raspberry Pi zero w (raspbian):
+* ros melodic
+### publisher from raspberry pi zero w ros1 to remote PC ros2 subscriber
+First we start a ROS 1 `roscore` on remote PC:
+```sh
+# Shell A on remote PC
+source /opt/ros/noetic/setup.bash
+export ROS_MASTER_URI=http://<IP of remote PC>:11311
+roscore
+```
+Then dynamic bridge:
+```sh
+# Shell B on remote PC
+# Source ROS 1 first:
+source /opt/ros/noetic/setup.bash
+export ROS_MASTER_URI=http://<IP of remote PC>:11311
+# Source ROS 2 next:
+source /opt/ros/foxy/setup.bash
+ros2 run ros1_bridge dynamic_bridge
+```
+On raspberry pi zero w, run the ros1 package `roscpp_tutorials`(copy from the [repo](http://wiki.ros.org/roscpp_tutorials) and build only `talker.cpp` in `/catkin_ws/`) 
+```sh
+# Shell C on raspberry pi zero w through SSH
+source /opt/ros/melodic/setup.bash
+export ROS_MASTER_URI=http://<IP of remote PC>:11311
+export ROS_HOSTNAME=<IP of raspberry pi zero w> # no http://
+rosrun roscpp_tutorials talker
+```
+The program will start outputting. And the Shell B on remote PC shows up the talker messages. (See the upper right shell of the following figure).
+![demo](ros1_bridge_demo.png)
+Now we start the ROS 2 listener from the demo_nodes_cpp ROS 2 package.
+```sh
+# Shell D on remote PC
+source /opt/ros/foxy/setup.bash
+ros2 run demo_nodes_cpp listener
+```
+And from the figure above we are seeing listener catching messages. (See the lower right shell).
 ## Install ROS2 for raspberry pi zero w (not successful)
 [ros wiki](https://answers.ros.org/question/299588/can-ros2-run-on-raspberry-pi-zero-w/) suggest 2 method for runnung ROS2 on raspberry pi zero w: 
 * **on Arch Linux**: could not build ros2-foxy through pacman, because fail of building fast-rtps
