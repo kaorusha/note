@@ -55,3 +55,13 @@ sudo apt-get install zip unzip
 ``` 
 ### use v1.0.4
 using this [command](https://docs.px4.io/master/en/dev_setup/fast-dds-installation.html#fast-rtps-gen)
+
+## PX4_ROS_COM
+Follow build [instruction](https://docs.px4.io/master/en/ros/ros2_comm.html#build-ros-2-workspace). If build failed, use a clean build should solve the error.
+## Navigation 2
+### lidar performance
+From the [ROS Navigation Tuning Guide](https://kaiyuzheng.me/documents/navguide.pdf) the following lidar property will affect the localization performance.
+#### Resolution
+The map gride resolution is limited by the laser ranging and angle resolution. The costmap updating cost will be wasted if the gride is smaller than the laser scanning resolution.
+#### Variance
+Greater variance gives a higher spreading range of the particle filter that helps localization correctness. This variance value should follow the laser spec.
