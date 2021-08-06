@@ -65,3 +65,7 @@ From the [ROS Navigation Tuning Guide](https://kaiyuzheng.me/documents/navguide.
 The map gride resolution is limited by the laser ranging and angle resolution. The costmap updating cost will be wasted if the gride is smaller than the laser scanning resolution.
 #### Variance
 Greater variance gives a higher spreading range of the particle filter that helps localization correctness. This variance value should follow the laser spec.
+### Controller server configuration
+Minimum x and y [velocity_threshold](https://navigation.ros.org/configuration/packages/configuring-controller-server.html) will affect the drifting sensibility of the drone.
+## Odometry update
+The real time MCU driver, on which the firmware responsible for motion controls published `/odom` topic for the navigation stack to subscribe. See example of [turtlebot3](https://github.com/ROBOTIS-GIT/OpenCR/blob/master/arduino/opencr_arduino/opencr/libraries/turtlebot3/examples/turtlebot3_burger/turtlebot3_core/turtlebot3_core.ino).
