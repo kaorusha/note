@@ -67,5 +67,16 @@ The map gride resolution is limited by the laser ranging and angle resolution. T
 Greater variance gives a higher spreading range of the particle filter that helps localization correctness. This variance value should follow the laser spec.
 ### Controller server configuration
 Minimum x and y [velocity_threshold](https://navigation.ros.org/configuration/packages/configuring-controller-server.html) will affect the drifting sensibility of the drone.
+### Behavior trees
+[multiple goals](https://navigation.ros.org/behavior_trees/trees/nav_through_poses_recovery.html): 
+behavior trees xml on branch [foxy-devel](https://github.com/ros-planning/navigation2/tree/foxy-devel/nav2_bt_navigator/behavior_trees) and on branch [main](https://github.com/ros-planning/navigation2/tree/main/nav2_bt_navigator/behavior_trees): the branch `foxy-devel` has no `navigate_through_poses_w_replanning_and_recovery.xml`.
+
 ## Odometry update
 The real time MCU driver, on which the firmware responsible for motion controls published `/odom` topic for the navigation stack to subscribe. See example of [turtlebot3](https://github.com/ROBOTIS-GIT/OpenCR/blob/master/arduino/opencr_arduino/opencr/libraries/turtlebot3/examples/turtlebot3_burger/turtlebot3_core/turtlebot3_core.ino).
+## PX4 Offboard Mode
+need target setpoints > 2Hz
+COM_OBL_ACT: Set offboard loss failsafe mode. now use 2: Return mode (but this mode requires GPS)
+## ROS2 Launch System
+The [document](https://design.ros2.org/articles/roslaunch.html) described the differences of launch system of ros and ros2.
+### Parameters
+No dynamic reconfigures package, instead, all parameter is local and dynamic reconfigureable, specified by the node.
