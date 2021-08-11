@@ -80,3 +80,5 @@ COM_OBL_ACT: Set offboard loss failsafe mode. now use 2: Return mode (but this m
 The [document](https://design.ros2.org/articles/roslaunch.html) described the differences of launch system of ros and ros2.
 ### Parameters
 No dynamic reconfigures package, instead, all parameter is local and dynamic reconfigureable, specified by the node.
+### control the order and timing of launched nodes
+### specify the events and responses of node life cycle conditions 

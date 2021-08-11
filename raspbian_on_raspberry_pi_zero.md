@@ -73,7 +73,7 @@ Both method highly suggest cross compiling (runs really really much faster)
 ```sh
 sudo apt-get install libeigen3-dev
 ```
-[cross compile env docker](https://github.com/cyberbotics/epuck_ros2/tree/master/installation/cross_compile): cross compiling ros2 packages but can't build `cyclonedds` package as this [issue](https://github.com/cyberbotics/epuck_ros2/issues/26), also can't build `rosidl_typesupport_connext_cpp` because `RTI Connext` is not supported now so tried somthing else. The file structure is shown in this [paper](https://lukic.io/files/E-puck2_ROS2_Webots.pdf).
+[cross compile env docker](https://github.com/cyberbotics/epuck_ros2/tree/master/installation/cross_compile): cross compiling ros2 packages but can't build `cyclonedds` package as this [issue](https://github.com/cyberbotics/epuck_ros2/issues/26), also can't build `rosidl_typesupport_connext_cpp` because `RTI Connext` is not supported now so tried somthing else. The file structure is shown in this [paper](https://lukic.io/files/E-puck2_ROS2_Webots.pdf). And another [question](https://answers.ros.org/question/382582/what-is-the-correct-way-of-installing-ros2-foxy-on-a-raspberry-pi-zero/) on ros-wiki used this cross-compile tool but not succeeded.
 ### Tools of Cross compiling
 This [reference](https://raspberrypi.stackexchange.com/questions/103737/cross-compile-for-raspberry-pi-zero-from-ubuntu) answered cross compiler tools options for **raspberry pi zero**.
 * [RaspberryPi toolchain](https://github.com/raspberrypi/tools): older gcc 4.9.3, [example](https://medium.com/@au42/the-useful-raspberrypi-cross-compile-guide-ea56054de187) of compiling WiringPi library.
