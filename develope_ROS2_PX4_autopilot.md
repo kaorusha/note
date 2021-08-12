@@ -82,3 +82,55 @@ The [document](https://design.ros2.org/articles/roslaunch.html) described the di
 No dynamic reconfigures package, instead, all parameter is local and dynamic reconfigureable, specified by the node.
 ### control the order and timing of launched nodes
 ### specify the events and responses of node life cycle conditions 
+
+## DroneKit
+This ardupilot use raspberry pi zero as a companion computer to deal with other computational heavy task like image processing.
+[Instructions](https://ardupilot.org/dev/docs/raspberry-pi-via-mavlink.html#setup-the-rpi-software) to route the ground station to communicate with fly control unit through UART port with MAVLINK protocal. USB-wifi adapter to broaden the communication range limit.
+
+## Simulation
+The entry point for SITL is the shell script `PX4-AUTOPILOT/Tools/sitl_run.sh`. The environment variables such as world file and model file can be changed as [this](https://docs.px4.io/master/en/simulation/gazebo.html#loading-a-specific-world). Another file `PX4-AUTOPILOT/ROMFS/px4fmu_common/init.d-posix/rcS` set other environment variables that related to PX4, changing setting as this [instruction](https://docs.px4.io/master/en/simulation/#run-simulation-faster-than-realtime).
+```sh
+cd /PX4-AUTOPILOT/
+export PX4_SITL_WORLD=$PWD/Tools/sitl_gazebo/worlds/indoor3.world 
+# substitute other customized world file
+echo $PX4_SITL_WORLD
+# check the absolute directory is correct
+make px4_sitl gazebo_iris_rplidar
+# start simulation with previous specified world
+```
+### read laser scan to ros topic
+Gazebo must be launched with the ROS wrapper with [roslaunch](https://docs.px4.io/master/en/simulation/ros_interface.html#launching-gazebo-with-ros-wrappers) 
+
+print the following distance sensor messages:
+```sh
+pxh> listener distance_sensor
+Instance 0:
+ distance_sensor_s
+        timestamp: 493360000  (0.020000 seconds ago)
+        device_id: 10092548 (Type: 0x9A, SIMULATION:0 (0x00)) 
+        min_distance: 0.2000
+        max_distance: 15.0000
+        current_distance: 0.2000
+        variance: 0.0000
+        h_fov: 0.0524
+        v_fov: 0.0524
+        q: [0.7071, -0.0000, -0.7071, -0.0000]  (Roll: 0.0 deg, Pitch: -90.0 deg, Yaw: -0.0 deg)
+        signal_quality: 0
+        type: 0
+        orientation: 25
+
+Instance 1:
+ distance_sensor_s
+        timestamp: 493364000  (0.016000 seconds ago)
+        device_id: 10092804 (Type: 0x9A, SIMULATION:0 (0x01)) 
+        min_distance: 0.2000
+        max_distance: 15.0000
+        current_distance: 2.5000
+        variance: 0.0000
+        h_fov: 0.0524
+        v_fov: 0.0524
+        q: [-0.7071, -0.0000, -0.7071, -0.0000]  (Roll: 0.0 deg, Pitch: 90.0 deg, Yaw: 0.0 deg)
+        signal_quality: 66
+        type: 0
+        orientation: 24
+```
