@@ -98,9 +98,6 @@ echo $PX4_SITL_WORLD
 make px4_sitl gazebo_iris_rplidar
 # start simulation with previous specified world
 ```
-### read laser scan to ros topic
-Gazebo must be launched with the ROS wrapper with [roslaunch](https://docs.px4.io/master/en/simulation/ros_interface.html#launching-gazebo-with-ros-wrappers) 
-
 print the following distance sensor messages:
 ```sh
 pxh> listener distance_sensor
@@ -134,3 +131,9 @@ Instance 1:
         type: 0
         orientation: 24
 ```
+### Read laser scan to ros topic
+#### ros1
+Gazebo must be launched with the ROS wrapper with [roslaunch](https://docs.px4.io/master/en/simulation/ros_interface.html#launching-gazebo-with-ros-wrappers) in order to get the data of Gazebo ROS laser plugin. 
+After exporting `ROS_PACKAGE_PATH`, `px4` package name can be found by roslaunch. 
+#### ros2
+Change the laser plugin from ros1 plugin `gazebo_ros_laser` to ros2 plugin `gazebo_ros_ray_sensor` as this [example](https://github.com/ros-simulation/gazebo_ros_pkgs/wiki/ROS-2-Migration:-Ray-sensors).
