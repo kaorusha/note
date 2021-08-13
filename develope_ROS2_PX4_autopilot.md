@@ -137,3 +137,8 @@ Gazebo must be launched with the ROS wrapper with [roslaunch](https://docs.px4.i
 After exporting `ROS_PACKAGE_PATH`, `px4` package name can be found by roslaunch. 
 #### ros2
 Change the laser plugin from ros1 plugin `gazebo_ros_laser` to ros2 plugin `gazebo_ros_ray_sensor` as this [example](https://github.com/ros-simulation/gazebo_ros_pkgs/wiki/ROS-2-Migration:-Ray-sensors).
+## Add New Airframe
+Modify 2 files at `PX4-Autopilot/ROMFS/px4fmu_common/init.d/airframes`: 
+* `4015_holybro_s500`: the PID gains and gyro cutoff frequency. [x500](https://docs.px4.io/master/en/frames_multicopter/holybro_x500_pixhawk4.html) and [s500v2](https://docs.px4.io/master/en/frames_multicopter/holybro_s500_v2_pixhawk4.html) use same configuration.
+* `4018_s500_ctrlalloc`: the physical properties of the frame
+Duplicate these files to `init.d-posix` directory if also need to use them in SITL. 
