@@ -139,6 +139,11 @@ After exporting `ROS_PACKAGE_PATH`, `px4` package name can be found by roslaunch
 Change the laser plugin from ros1 plugin `gazebo_ros_laser` to ros2 plugin `gazebo_ros_ray_sensor` as this [example](https://github.com/ros-simulation/gazebo_ros_pkgs/wiki/ROS-2-Migration:-Ray-sensors).
 ## Add New Airframe
 Modify 2 files at `PX4-Autopilot/ROMFS/px4fmu_common/init.d/airframes`: 
-* `4015_holybro_s500`: the PID gains and gyro cutoff frequency. [x500](https://docs.px4.io/master/en/frames_multicopter/holybro_x500_pixhawk4.html) and [s500v2](https://docs.px4.io/master/en/frames_multicopter/holybro_s500_v2_pixhawk4.html) use same configuration.
-* `4018_s500_ctrlalloc`: the physical properties of the frame
+### PID gains and gyro cutoff frequency.
+Take `4015_holybro_s500` as an example: [x500](https://docs.px4.io/master/en/frames_multicopter/holybro_x500_pixhawk4.html) and [s500v2](https://docs.px4.io/master/en/frames_multicopter/holybro_s500_v2_pixhawk4.html) use same configuration.
+### Physical properties of the frame.
+The following properties are specified for each propeller. See `4018_s500_ctrlalloc` as an example.  
+* [Thrust Coeffieient](https://docs.px4.io/master/en/advanced_config/parameter_reference.html?#CA_MC_R0_CT) ([difinition](https://web.mit.edu/16.unified/www/FALL/thermodynamics/notes/node86.html#SECTION06374100000000000000))
+* [Moment coefficient](https://docs.px4.io/master/en/advanced_config/parameter_reference.html?#CA_MC_R0_KM) ([definition](https://youtu.be/brDkdI1V0dA?t=368))
+
 Duplicate these files to `init.d-posix` directory if also need to use them in SITL. 
