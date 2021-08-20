@@ -82,6 +82,8 @@ vel_m_s: 0.0000</br>
 vel_n_m_s: -0.0100</br>
 vel_e_m_s: -0.0100</br>
 vel_d_m_s: -0.0400</br>
+### Height
+Use onboard sensor barometer ms5611 for height measurement: the [link](https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&cad=rja&uact=8&ved=2ahUKEwiki4Kgzb7yAhVUIaYKHaYADM0QtwJ6BAgjEAM&url=https%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3D8ATYYNu_FtI&usg=AOvVaw1Q6s1PPe4V0hwv7t-J2VRE) use acclerometer and barometer and kalman filter to measure the height in centimeter range.
 
 
 ## ROS2 Launch System
