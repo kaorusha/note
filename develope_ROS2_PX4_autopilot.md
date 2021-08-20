@@ -76,6 +76,14 @@ The real time MCU driver, on which the firmware responsible for motion controls 
 ## PX4 Offboard Mode
 need target setpoints > 2Hz
 COM_OBL_ACT: Set offboard loss failsafe mode. now use 2: Return mode (but this mode requires GPS)
+> the offboard control example need location signal, such as GPS signal.
+> Another way of using [fake gps node](https://answers.ros.org/question/349587/how-can-we-create-a-fake-gps-publisher-node-in-ros2/) has no velocity measurement from gps driver: </br>
+vel_m_s: 0.0000</br>
+vel_n_m_s: -0.0100</br>
+vel_e_m_s: -0.0100</br>
+vel_d_m_s: -0.0400</br>
+
+
 ## ROS2 Launch System
 The [document](https://design.ros2.org/articles/roslaunch.html) described the differences of launch system of ros and ros2.
 ### Parameters
@@ -146,4 +154,6 @@ The following properties are specified for each propeller. See `4018_s500_ctrlal
 * [Thrust Coeffieient](https://docs.px4.io/master/en/advanced_config/parameter_reference.html?#CA_MC_R0_CT) ([difinition](https://web.mit.edu/16.unified/www/FALL/thermodynamics/notes/node86.html#SECTION06374100000000000000))
 * [Moment coefficient](https://docs.px4.io/master/en/advanced_config/parameter_reference.html?#CA_MC_R0_KM) ([definition](https://youtu.be/brDkdI1V0dA?t=368))
 
-Duplicate these files to `init.d-posix` directory if also need to use them in SITL. 
+Duplicate these files to `init.d-posix` directory if also need to use them in SITL.
+## Qgroundcontrol virtual joystick
+If the vehicle is landed already but not detacted by the firmware, use the stick to takeoff again and land again until the system detected that the vehicle is landed. If the vehicle has no location signal, such as GPS, the vehicle can be mannually takeoff by virtual joystick, but it can't stick to a stablized loiter position and will hover around in a couple of meters. Need manuually adjusted its position.
