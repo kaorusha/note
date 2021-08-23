@@ -59,6 +59,8 @@ using this [command](https://docs.px4.io/master/en/dev_setup/fast-dds-installati
 ## PX4_ROS_COM
 Follow build [instruction](https://docs.px4.io/master/en/ros/ros2_comm.html#build-ros-2-workspace). If build failed, use a clean build should solve the error.
 ## Navigation 2
+### localization
+AMCL [Warning](https://index.ros.org/p/nav2_amcl/#foxy): AutoLocalization actuates robot; currently, **obstacle avoidance has not been integrated into this feature**. The user is advised to not use this feature on a physical robot for safety reasons. As of now, this feature should only be used in simulations.
 ### lidar performance
 From the [ROS Navigation Tuning Guide](https://kaiyuzheng.me/documents/navguide.pdf) the following lidar property will affect the localization performance.
 #### Resolution
@@ -72,7 +74,7 @@ Minimum x and y [velocity_threshold](https://navigation.ros.org/configuration/pa
 behavior trees xml on branch [foxy-devel](https://github.com/ros-planning/navigation2/tree/foxy-devel/nav2_bt_navigator/behavior_trees) and on branch [main](https://github.com/ros-planning/navigation2/tree/main/nav2_bt_navigator/behavior_trees): the branch `foxy-devel` has no `navigate_through_poses_w_replanning_and_recovery.xml`.
 
 ## Odometry update
-The real time MCU driver, on which the firmware responsible for motion controls published `/odom` topic for the navigation stack to subscribe. See example of [turtlebot3](https://github.com/ROBOTIS-GIT/OpenCR/blob/master/arduino/opencr_arduino/opencr/libraries/turtlebot3/examples/turtlebot3_burger/turtlebot3_core/turtlebot3_core.ino).
+The real time MCU driver, on which the firmware responsible for motion controls published `/odom` topic for the navigation stack to subscribe. See example of [turtlebot3](https://github.com/ROBOTIS-GIT/OpenCR/blob/master/arduino/opencr_arduino/opencr/libraries/turtlebot3/examples/turtlebot3_burger/turtlebot3_core/turtlebot3_core.ino). The `nav_msgs::Odometry odom` is used to update the odom tf with `tf_broadcaster()` with encoder data.
 ## PX4 Offboard Mode
 need target setpoints > 2Hz
 COM_OBL_ACT: Set offboard loss failsafe mode. now use 2: Return mode (but this mode requires GPS)
