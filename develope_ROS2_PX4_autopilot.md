@@ -143,6 +143,23 @@ Instance 1:
         type: 0
         orientation: 24
 ```
+### Auto takeoff
+meet the following 2 condition, and PX4 can auto takeoff
+#### publish global or local position to uorb
+#### use QGC to give a rc signal
+or PX4 will complain and stop auto takeoff
+```diff
+pxh> commander takeoff
+pxh> INFO  [commander] Failsafe mode deactivated
+INFO  [navigator] Using minimum takeoff altitude: 1.00 m
+INFO  [commander] Takeoff detected
+!WARN  [commander] Failsafe enabled: no datalink
+INFO  [commander] Failsafe mode activated
+INFO  [tone_alarm] battery warning (fast)
+[ INFO] [1629880213.080890349, 1606.892000000]: HP: requesting home position
+INFO  [commander] Landing detected
+INFO  [commander] Failsafe mode deactivated
+```
 ### Read laser scan to ros topic
 #### ros1
 Gazebo must be launched with the ROS wrapper with [roslaunch](https://docs.px4.io/master/en/simulation/ros_interface.html#launching-gazebo-with-ros-wrappers) in order to get the data of Gazebo ROS laser plugin. 
