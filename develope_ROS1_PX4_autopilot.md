@@ -69,5 +69,6 @@ Edit `px4_config.yaml` set the `timesync_rate` from origin 10(suggested) to 0.1 
 ## Companion computer set up
 ### Install mavlink router (recommand)
 The [repo](https://github.com/mavlink-router/mavlink-router) and the [config file example](http://bellergy.com/6-install-and-setup-mavlink-router/).
+> Note: when using `PX4 <--- usb ---> rpi 0 w <--- mavlink-router through wifi(UDP) ---> QGC on PC`, the usb cable from `Pixhawk` to `rpi 0 w` should use the cable that can be recognized by QGC, not the cable which is charging only.
 ### Install mavros
 [steps](https://junmo1215.github.io/tutorial/2019/07/14/tutorial-install-ROS-and-mavros-in-raspberry-pi.html)
