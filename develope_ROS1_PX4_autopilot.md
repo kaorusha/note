@@ -67,8 +67,20 @@ roslaunch hector_slam_xtdrone.launch
 Edit `px4_config.yaml` set the `timesync_rate` from origin 10(suggested) to 0.1 as this [link](https://discuss.ardupilot.org/t/rtt-too-high-for-timesync-with-sitl-mavros/38224/6)
 
 ## Companion computer set up
+The [TELEM2](https://docs.px4.io/master/en/companion_computer/pixhawk_companion.html#hardware-setup) is the default port for connecting pixhawk to companion computer by a uart-to-usb convertor like [FTDI](https://www.ruten.com.tw/item/show?21950031316494). We can also link directly through the usb port from the side of pixhawk.
 ### Install mavlink router (recommand)
 The [repo](https://github.com/mavlink-router/mavlink-router) and the [config file example](http://bellergy.com/6-install-and-setup-mavlink-router/).
+Get the following warning message:
+```sh
+$ mavlink-routerd -e 172.16.173.203:14550
+Open UDP [4] 172.16.173.203:14550  
+Error while trying to write serial port latency: Unknown error -1
+Open UART [5] /dev/ttyACM0 *
+UART [5] speed = 115200
+Open TCP [6] 0.0.0.0:5760 *
+22 messages to unknown endpoints in the last 5 seconds
+```
+The serial port latency [issue](https://github.com/mavlink-router/mavlink-router/issues/213) related to `TIOCSSERIAL` may not be supported by newer kernels, but it should continue to work regardless of that.
 > Note: when using `PX4 <--- usb ---> rpi 0 w <--- mavlink-router through wifi(UDP) ---> QGC on PC`, the usb cable from `Pixhawk` to `rpi 0 w` should use the cable that can be recognized by QGC, not the cable which is charging only.
 ### Install mavros
 [steps](https://junmo1215.github.io/tutorial/2019/07/14/tutorial-install-ROS-and-mavros-in-raspberry-pi.html)
