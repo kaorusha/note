@@ -63,4 +63,11 @@ source /opt/ros/noetic/setup.bash
 roslaunch hector_slam_xtdrone.launch
 ```
 ### RTT too High For Timesync warning for real drone
-Edit `px4_config.yaml` set the `timesync_rate` from origin 10 to 0.1 as this [link](https://discuss.ardupilot.org/t/rtt-too-high-for-timesync-with-sitl-mavros/38224/6)
+> Note: 
+Edit `px4_config.yaml` set the `timesync_rate` from origin 10(suggested) to 0.1 as this [link](https://discuss.ardupilot.org/t/rtt-too-high-for-timesync-with-sitl-mavros/38224/6)
+
+## Companion computer set up
+### Install mavlink router (recommand)
+The [repo](https://github.com/mavlink-router/mavlink-router) and the [config file example](http://bellergy.com/6-install-and-setup-mavlink-router/).
+### Install mavros
+[steps](https://junmo1215.github.io/tutorial/2019/07/14/tutorial-install-ROS-and-mavros-in-raspberry-pi.html)
