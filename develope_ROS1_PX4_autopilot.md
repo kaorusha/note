@@ -82,7 +82,6 @@ export ROS_PACKAGE_PATH=$ROS_PACKAGE_PATH:$(pwd)
 export ROS_PACKAGE_PATH=$ROS_PACKAGE_PATH:$(pwd)/Tools/sitl_gazebo
 roslaunch px4 bringup.launch
 ```
-Check the 
 ```sh
 # shell D (on companion computer with lidar)
 mavlink-routerd -e <remote PC IP>:14540 -e <remote PC IP>:14550
