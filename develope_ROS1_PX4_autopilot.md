@@ -23,7 +23,7 @@ min = 1; time = 0;
 ```
 ### RTT too High For Timesync warning for real drone
 > Note: 
-Edit `px4_config.yaml` set the `timesync_rate` from origin 10(suggested) to 0.1 as this [link](https://discuss.ardupilot.org/t/rtt-too-high-for-timesync-with-sitl-mavros/38224/6)
+Edit `px4_config.yaml` set the `timesync_rate` from origin 10(suggested) to 0.1hz as this [link](https://discuss.ardupilot.org/t/rtt-too-high-for-timesync-with-sitl-mavros/38224/6) for `telemetry radio` and 2hz for `mavlink router`.
 ### with UDP
 #### `mavlink-router` [recommand](https://docs.px4.io/master/en/companion_computer/pixhawk_companion.html#companion-computer-setup)
 ##### Companion computer set up
