@@ -1,6 +1,6 @@
 # ROS1 and PX4 
-## Setup `PX4` <---> `mavros` <---> `QGC` communication
-### with telemetry
+# Setup `PX4` <---> `mavros` <---> `QGC` communication
+## with telemetry
 When `mavros` runs on remote PC, the communication with `PX4` is through `telemetry` or a [wifi module](https://docs.px4.io/master/en/telemetry/esp8266_wifi_module.html). The key is to turnoff the auto connection of `QGC` and `PX4` via `telemetry`(see the [instructions](https://github.com/mavlink/mavros/issues/624)) and this [answer](https://github.com/mavlink/mavros/issues/878). Or the `mavros` is not able to use the `telemetry` to comminicate with `PX4`. The `QGC` also runs on remote PC and can communicate with `mavros` with UDP. The result is like `FCU <---telemetry---> MAVROS <---UDP---> QGC`.
 > Note: after changing `QGC` configuration, the `telemetry` won't auto connect to `PX4` and so the red LED won't blink like it does when `FCU <---tellemetry---> QGC` and will start blinking until `mavros` was launched.
 
@@ -21,14 +21,14 @@ min = 1; time = 0;
 -opost
 -isig -icanon -iexten -echo
 ```
-### RTT too High For Timesync warning for real drone
+## RTT too High For Timesync warning for real drone
 > Note: 
 Edit `px4_config.yaml` set the `timesync_rate` from origin 10(suggested) to 0.1hz as this [link](https://discuss.ardupilot.org/t/rtt-too-high-for-timesync-with-sitl-mavros/38224/6) for `telemetry radio` and 2hz for `mavlink router`.
-### with UDP
-#### `mavlink-router` [recommand](https://docs.px4.io/master/en/companion_computer/pixhawk_companion.html#companion-computer-setup)
-##### Companion computer set up
+## with UDP
+### `mavlink-router` [recommand](https://docs.px4.io/master/en/companion_computer/pixhawk_companion.html#companion-computer-setup)
+#### Companion computer set up
 The [TELEM2](https://docs.px4.io/master/en/companion_computer/pixhawk_companion.html#hardware-setup) is the default port for connecting pixhawk to companion computer by a uart-to-usb convertor like [FTDI](https://docs.px4.io/master/en/peripherals/companion_computer_peripherals.html#ftdi-devices) and [other FTDI devices](https://www.ruten.com.tw/item/show?21950031316494). We can also link directly through the usb port from the side of pixhawk.
-##### Install mavlink router
+#### Install mavlink router
 The [repo](https://github.com/mavlink-router/mavlink-router) and the [config file example](http://bellergy.com/6-install-and-setup-mavlink-router/).
 Get the following warning message:
 ```sh
@@ -49,14 +49,15 @@ The “25 messages to unknown endpoints in the last 5 seconds” warning disappe
 
 > Note: The [VPN](https://docs.px4.io/master/en/peripherals/companion_computer_peripherals.html#data-telephony-lte) on both `GCS` computer and companion computer can help to do secure data encryption and use static IP address and so the `mavlink-router` config does not need to change over time. 
 
-#### `mavros` runs on companion computer and GCS on another computer
-##### Install mavros on companion computer
+### `mavros` runs on companion computer and GCS on another computer
+#### Install mavros on companion computer
 [steps](https://junmo1215.github.io/tutorial/2019/07/14/tutorial-install-ROS-and-mavros-in-raspberry-pi.html)
 When `mavros` runs on a companion computer like single board computer mounted on the drone, the default `fcu_url:=/dev/ttyACM0:57600` means the companion computer connect with fcu via usb port to the `TELEM2` port of the Pixhawk4 follow the [wiring](https://docs.px4.io/master/en/companion_computer/pixhawk_companion.html) .
 
 If `QGC` run on remote PC, SSH to companion computer and launch `mavros` use this [command](https://blog.csdn.net/qq_38649880/article/details/88342904) and use the IP of the remote PC `gcs_url:=udp://@xxx.xxx.xxx.xxx` or search udp automatically: `gcs_url:=udp-b://@`.
 
-## Use /mavros/vision/pose to do auto takeoff and navigation
+# Use /mavros/vision/pose to do auto takeoff and navigation
+## PX4 on real machine
 Check and export `ROS_MASTER_URI`
 ```sh
 # shell A on remote PC
@@ -93,6 +94,18 @@ nsh> vl53l1x start -X -b 4
 nsh> vl53l1x start -X -b 2 -R 24
 ```
 > note: set [SENS_EN_VL53L1X](https://docs.px4.io/master/en/advanced_config/parameter_reference.html#SENS_EN_VL53L1X) to true to start all driver at startup with [default setting](https://docs.px4.io/master/en/modules/modules_driver_distance_sensor.html#vl53l1x). When using multiple distance sensors, disable `SENS_EN_VL53L1X` and add extra startup [script](https://docs.px4.io/master/en/concept/system_startup.html#starting-additional-applications) to specify each sensor [port](http://www.holybro.com/manual/Pixhawk4-Pinouts.pdf) and [orientation](https://docs.px4.io/master/en/advanced_config/parameter_reference.html#SENS_CM8JL65_R_0) (defined as [MAV_SENSOR_ORIENTATION](https://mavlink.io/en/messages/common.html#DISTANCE_SENSOR)).
+## PX4 Simulation with SITL gazebo
+Replace the previous steps with the following [steps](http://docs.px4.io/master/en/simulation/ros_interface.html#launching-gazebo-with-ros-wrappers). Rebuild after changing `.sdf` file. ([troubleshooting](http://docs.px4.io/master/en/dev_setup/building_px4.html#general-build-errors))
+```sh
+# SITL
+cd PX4-Autopilot/
+source /opt/ros/noetic/setup.bash
+source Tools/setup_gazebo.bash $(pwd) $(pwd)/build/px4_sitl_default
+export ROS_PACKAGE_PATH=$ROS_PACKAGE_PATH:$(pwd)
+export ROS_PACKAGE_PATH=$ROS_PACKAGE_PATH:$(pwd)/Tools/sitl_gazebo
+roslaunch px4 indoor3.launch gui:=false
+```
+## Laser scan for localization on ROS
 ```sh
 # shell E on remote PC
 cd <laser slam script file directory>
@@ -104,4 +117,25 @@ python3 vehicle_visual_odom_pub.py iris_rplidar 0 2d /poseupdate
 cd <hector slam launch file directory>
 source /opt/ros/noetic/setup.bash
 roslaunch hector_slam_xtdrone.launch
+```
+### Auto takeoff
+Check the local altitude and takeoff height is in local frame. 
+```sh
+# QGC mavshell(real machine) or SITL(simulation)
+commander arm
+commander takeoff
+```
+## Navigation
+Connect `cmd_vel` to mavros `set_position_raw`
+```sh
+# shell G on remote PC
+cd <XTDrone>/communication/
+source /opt/ros/noetic/setup.bash
+python3 multirotor_communication.py iris 0 0
+```
+```sh
+#shell H on remote PC
+cd <XTDrone>/motion_planning/
+source /opt/ros/noetic/setup.bash
+roslaunch launch/2d_motion_planning.launch # note the dir_name is motion_planning
 ```
