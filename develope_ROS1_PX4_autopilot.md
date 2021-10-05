@@ -131,7 +131,7 @@ Connect `cmd_vel` to mavros `set_position_raw`
 # shell G on remote PC
 cd <XTDrone>/communication/
 source /opt/ros/noetic/setup.bash
-python3 multirotor_communication.py iris 0 0
+python3 multirotor_communication.py iris_rplidar 0 0
 ```
 ```sh
 #shell H on remote PC
