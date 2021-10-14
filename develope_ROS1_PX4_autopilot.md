@@ -112,6 +112,7 @@ cd <laser slam script file directory>
 source /opt/ros/noetic/setup.bash
 python3 vehicle_visual_odom_pub.py iris_rplidar 0 2d /poseupdate
 ```
+> for simulation, remember to modify parameter `/use_sim_time` to true in the `hector_slam_xtdrone.launch` file.
 ```sh
 # shell F on remote PC
 cd <hector slam launch file directory>
