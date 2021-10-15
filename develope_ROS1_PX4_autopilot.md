@@ -150,3 +150,5 @@ Higher the target publish rate for velocity setpoint to 100 hz, although 20 hz i
 This is caused by bending of the fixed link between lidar scanner and the body. To eliminate the bending of the link, use a lower moment of inertia of lidar scanner and a gentle acceleration in motion.
 #### [ WARN] [1563590145.137041656]: Off Map 1.159504, -3.989272 
 Set lasger size for the local_cost_map. The message is telling the simulating step is outside the costmap.
+#### [ERROR] [1634285684.713884704]: FCU: Failsafe enabled: No manual control stick input
+Set `COM_RCL_EXCEPT` to 3 to allow arm, takeoff mission, and offboard mode.
