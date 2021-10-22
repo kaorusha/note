@@ -141,11 +141,15 @@ source /opt/ros/noetic/setup.bash
 roslaunch launch/2d_motion_planning.launch # note the dir_name is motion_planning
 ```
 ### trubleshooting
-#### overshoot at the goal position and pullback repeatedly
+#### Given velocity for `setpoint_raw` with position masked and result in overshoot at the goal position and pullback repeatedly
 Lower `MPC_XY_CRUISE` and `MC_YAWRATE_MAX` limit. The flight stack use `MPC_XY_CRUISE` as speed limit for offboard `PositionTarget`. And we can set the bitmask to select position or velocity control. When ignoring velocity setpoint, the flight stack will take care of speed control and slow down near goal. When ignoring position setpoint, the speed is calculated by offboard controller so the speed limit is crucial.
-> According to this [blog](https://akshayk07.weebly.com/offboard-control-of-pixhawk.html). But yaw control could not be done correctly yet.
-
 Higher the target publish rate for velocity setpoint to 100 hz, although 20 hz is good for position setpoint. And accelerate setpoint need evan higher rate (mentioned in this [blog](https://blog.csdn.net/benchuspx/article/details/115750466)).
+#### Given position for `setpoint_raw` with velocity masked but unable to set yaw
+When given yaw, the drone attitude changed drastically and the estimator will lost its position. This might caused by not well-tunning yaw PID gain.
+> According to this [blog](https://akshayk07.weebly.com/offboard-control-of-pixhawk.html). But yaw control could not be done correctly yet.
+Set yaw_rate of the setpoint_raw instead of controlling yaw angle directly, with yaw masked, yaw_rate can well and stably control the drone.
+#### Position control: overshoot of offboard setpoint
+Tune `MPC_XY_VEL_*` as [suggested](https://discuss.px4.io/t/pid-issue-when-firmware-update-from1-10-to-1-12/23385) and [this](https://discuss.px4.io/t/very-agressive-oscillation-in-position-mode/807/16)
 #### lidar scanner will tilt and scan the body itself when simulation with gazebo 
 This is caused by bending of the fixed link between lidar scanner and the body. To eliminate the bending of the link, use a lower moment of inertia of lidar scanner and a gentle acceleration in motion.
 #### [ WARN] [1563590145.137041656]: Off Map 1.159504, -3.989272 
