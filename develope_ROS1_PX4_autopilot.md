@@ -156,3 +156,13 @@ This is caused by bending of the fixed link between lidar scanner and the body. 
 Set lasger size for the local_cost_map. The message is telling the simulating step is outside the costmap.
 #### [ERROR] [1634285684.713884704]: FCU: Failsafe enabled: No manual control stick input
 Set `COM_RCL_EXCEPT` to 3 to allow arm, takeoff mission, and offboard mode.
+#### Collision Prevention
+For `position mode`, set `MPC_POS_MODE` to 3 or 0 to enable collision prevention. Also note the FOV as this [post](https://discuss.px4.io/t/px4-vision-collision-prevention-feature-seems-not-to-work/23476).
+# Mission Mode
+If the simulation reject to excute the mission, check the following params:
+`EKF2_AID_MASK` including GPS, because this mode does not support local NED frame as the [doc](https://docs.px4.io/master/en/flight_modes/mission.html) said. And currently the PX4 and mavros vision estimate only support mavlink topic [VISION_POSITION_ESTIMATE](https://mavlink.io/en/messages/common.html#VISION_POSITION_ESTIMATE) in local coordinate.
+`NAV_ACC_RAD` is adjusted with the takeoff height. The firmware code now requires height has to be larger than the radius by 1 meter, or shows the following error:
+```sh 
+Mission rejected: Takeoff altitude too low!
+```
+`COM_OBS_AVOID` set to 0 unless obstacle and trajectory message are publishing.
