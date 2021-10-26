@@ -4,7 +4,7 @@
 When `mavros` runs on remote PC, the communication with `PX4` is through `telemetry` or a [wifi module](https://docs.px4.io/master/en/telemetry/esp8266_wifi_module.html). The key is to turnoff the auto connection of `QGC` and `PX4` via `telemetry`(see the [instructions](https://github.com/mavlink/mavros/issues/624)) and this [answer](https://github.com/mavlink/mavros/issues/878). Or the `mavros` is not able to use the `telemetry` to comminicate with `PX4`. The `QGC` also runs on remote PC and can communicate with `mavros` with UDP. The result is like `FCU <---telemetry---> MAVROS <---UDP---> QGC`.
 > Note: after changing `QGC` configuration, the `telemetry` won't auto connect to `PX4` and so the red LED won't blink like it does when `FCU <---tellemetry---> QGC` and will start blinking until `mavros` was launched.
 
-When connectting `FCU <---telemetry---> MAVROS` and `FCU <---telemetry---> QGC`the distance_sensor publish rate is 0.3 hz while `FCU <---usb---> MAVROS` the rate is about 10 hz, which is as fast as `FCU <---usb---> QGC`. The suggest [solution](https://github.com/mavlink/mavros/issues/1182) is changing `MAV_0_RATE` but this does not help with `distance_sensor`. And the [Holybro](http://www.holybro.com/manual/Telemetry-Radio-V3-Quick-Start-Guide.pdf) telemetry module does not support 115200 baud rate. The [default setting](https://docs.px4.io/master/en/peripherals/mavlink_peripherals.html#mavlink-instances) will generally be acceptable, but might be reduced if the telemetry link becomes saturated and too many messages are being dropped. (Reduce the meassge might be helpful by changing `MAV_X_MODE` other than `Normal`.)
+When connecting `FCU <---telemetry---> MAVROS` and `FCU <---telemetry---> QGC`the distance_sensor publish rate is 0.3 hz while `FCU <---usb---> MAVROS` the rate is about 10 hz, which is as fast as `FCU <---usb---> QGC`. The suggest [solution](https://github.com/mavlink/mavros/issues/1182) is changing `MAV_0_RATE` but this does not help with `distance_sensor`. And the [Holybro](http://www.holybro.com/manual/Telemetry-Radio-V3-Quick-Start-Guide.pdf) telemetry module does not support 115200 baud rate. The [default setting](https://docs.px4.io/master/en/peripherals/mavlink_peripherals.html#mavlink-instances) will generally be acceptable, but might be reduced if the telemetry link becomes saturated and too many messages are being dropped. (Reduce the message might be helpful by changing `MAV_X_MODE` other than `Normal`.)
 
 The usb and /dev/ttyACM0(when connecting with Pixhawk) is both default 9600 baud:
 ```sh
@@ -140,7 +140,7 @@ cd <XTDrone>/motion_planning/2d/
 source /opt/ros/noetic/setup.bash
 roslaunch launch/2d_motion_planning.launch # note the dir_name is motion_planning
 ```
-### trubleshooting
+### Troubleshooting
 #### Given velocity for `setpoint_raw` with position masked and result in overshoot at the goal position and pullback repeatedly
 Lower `MPC_XY_CRUISE` and `MC_YAWRATE_MAX` limit. The flight stack use `MPC_XY_CRUISE` as speed limit for offboard `PositionTarget`. And we can set the bitmask to select position or velocity control. When ignoring velocity setpoint, the flight stack will take care of speed control and slow down near goal. When ignoring position setpoint, the speed is calculated by offboard controller so the speed limit is crucial.
 Higher the target publish rate for velocity setpoint to 100 hz, although 20 hz is good for position setpoint. And accelerate setpoint need evan higher rate (mentioned in this [blog](https://blog.csdn.net/benchuspx/article/details/115750466)).
@@ -153,13 +153,13 @@ Tune `MPC_XY_VEL_*` as [suggested](https://discuss.px4.io/t/pid-issue-when-firmw
 #### lidar scanner will tilt and scan the body itself when simulation with gazebo 
 This is caused by bending of the fixed link between lidar scanner and the body. To eliminate the bending of the link, use a lower moment of inertia of lidar scanner and a gentle acceleration in motion.
 #### [ WARN] [1563590145.137041656]: Off Map 1.159504, -3.989272 
-Set lasger size for the local_cost_map. The message is telling the simulating step is outside the costmap.
+Set larger size for the local_cost_map. The message is telling the simulating step is outside the costmap.
 #### [ERROR] [1634285684.713884704]: FCU: Failsafe enabled: No manual control stick input
 Set `COM_RCL_EXCEPT` to 3 to allow arm, takeoff mission, and offboard mode.
 #### Collision Prevention
 For `position mode`, set `MPC_POS_MODE` to 3 or 0 to enable collision prevention. Also note the FOV as this [post](https://discuss.px4.io/t/px4-vision-collision-prevention-feature-seems-not-to-work/23476).
 # Mission Mode
-If the simulation reject to excute the mission, check the following params:
+If the simulation reject to execute the mission, check the following params:
 `EKF2_AID_MASK` including GPS, because this mode does not support local NED frame as the [doc](https://docs.px4.io/master/en/flight_modes/mission.html) said. And currently the PX4 and mavros vision estimate only support mavlink topic [VISION_POSITION_ESTIMATE](https://mavlink.io/en/messages/common.html#VISION_POSITION_ESTIMATE) in local coordinate.
 `NAV_ACC_RAD` is adjusted with the takeoff height. The firmware code now requires height has to be larger than the radius by 1 meter, or shows the following error:
 ```sh 
