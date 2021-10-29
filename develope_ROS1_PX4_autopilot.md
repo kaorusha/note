@@ -171,10 +171,18 @@ Mission rejected: Takeoff altitude too low!
 * [interface](https://docs.px4.io/master/en/computer_vision/path_planning_interface.html)
 * [message flow](https://github.com/PX4/PX4-Avoidance#message-flows)
 
-For dynamic obstacle avoidance, the main loop callback function is in `local_planner_nodelet.cpp` line #283:
+The local_planner use 4 thread, from line # 47 in `local_planner_nodelet.cpp` calls `onInit()`:
+* main thread `startNode()` calls the main loop callback function
+* thread for updating the waypoints and state from Mission Mode in line # 476 `setPlannerInfo()` as the input for the local planner
+* thread for tf updating
+* thread for dynamic parameter updating (implemented in `avoidance_node.cpp` line # 41 `AvoidanceNode::init()`)  
+The main loop callback functions calls the following method to update the setpoint in line #283:
 ```cpp
 void LocalPlannerNodelet::calculateWaypoints(bool hover)
-``` 
+```
 and in line #289 the `getWaypoint()` iterate the state machine by calling `calculateWaypoint()`,and the state machine is updated by the override function `runCurrentState()` and `chooseNextState()`.
 In `WaypointGenerator::runCurrentState()`, one of the 4 state is `runTryPath()`, which calls `getPathMsg()` to create the message that is sent to the UAV. And than transform the message type from `avoidance::waypointResult` to `mavros_msgs::Trajectory` and `geometry_msgs::PoseStamped`. Though there are 5 points in [mavros_msgs::Trajectory](http://docs.ros.org/en/api/mavros_msgs/html/msg/Trajectory.html) but only first one is used. See `avoidance::transformToTrajectory()`. And FCU will feedback its next desired position in topic `/mavros/trajectory/desired`, use this to be the goal input for the local planner to calculate new obstacle free path.
 > Note: `safe_landing_planner` used a different state machine as `local_planner`
+
+For mission mode to enable avoidance, the avoidance node subscribe `/mavros/mission/waypoints` to get the current state of the vehicle and use it for the planner to update the new plan. and 
+[MAV_CMD](https://mavlink.io/en/messages/common.html#MAV_CMD_NAV_WAYPOINT)
