@@ -144,6 +144,7 @@ roslaunch launch/2d_motion_planning.launch # note the dir_name is motion_plannin
 #### Given velocity for `setpoint_raw` with position masked and result in overshoot at the goal position and pullback repeatedly
 Lower `MPC_XY_CRUISE` and `MC_YAWRATE_MAX` limit. The flight stack use `MPC_XY_CRUISE` as speed limit for offboard `PositionTarget`. And we can set the bitmask to select position or velocity control. When ignoring velocity setpoint, the flight stack will take care of speed control and slow down near goal. When ignoring position setpoint, the speed is calculated by offboard controller so the speed limit is crucial.
 Higher the target publish rate for velocity setpoint to 100 hz, although 20 hz is good for position setpoint. And accelerate setpoint need evan higher rate (mentioned in this [blog](https://blog.csdn.net/benchuspx/article/details/115750466)).
+> Note: `mavros` plugin `setpoint_position/velocity/accel/raw/trajectory` all call the `set_position_target_local_ned()` in file `setpoint_mixin.hpp` to send setpoint with type [SET_POSITION_TARGET_LOCAL_NED](https://mavlink.io/en/messages/common.html#SET_POSITION_TARGET_LOCAL_NED).
 #### Given position for `setpoint_raw` with velocity masked but unable to set yaw
 When given yaw, the drone attitude changed drastically and the estimator will lost its position. This might caused by not well-tunning yaw PID gain.
 > According to this [blog](https://akshayk07.weebly.com/offboard-control-of-pixhawk.html). But yaw control could not be done correctly yet.
