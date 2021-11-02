@@ -148,6 +148,9 @@ Higher the target publish rate for velocity setpoint to 100 hz, although 20 hz i
 #### Given position for `setpoint_raw` with velocity masked but unable to set yaw
 When given yaw, the drone attitude changed drastically and the estimator will lost its position. This might caused by not well-tunning yaw PID gain.
 > According to this [blog](https://akshayk07.weebly.com/offboard-control-of-pixhawk.html). But yaw control could not be done correctly yet.
+
+By lowering P `MC_YAW_P` to half as 1.4 ease the overshoot of yaw angle, so the vehicle yaw can be controlled by giving `sepoint_position` with yaw orientation. However when the vehicle reached the goal, it is very often that the yaw angle can not turned to the desired direction, and the local_planner eventually gives up. 
+##### Workaround
 Set yaw_rate of the setpoint_raw instead of controlling yaw angle directly, with yaw masked, yaw_rate can well and stably control the drone.
 #### Position control: overshoot of offboard setpoint
 Tune `MPC_XY_VEL_*` as [suggested](https://discuss.px4.io/t/pid-issue-when-firmware-update-from1-10-to-1-12/23385) and [this](https://discuss.px4.io/t/very-agressive-oscillation-in-position-mode/807/16)
