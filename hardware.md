@@ -4,7 +4,7 @@ https://www.theconstructsim.com/82-available-ros2-hardware/
 
 [indoor localization rf tags](https://idminer.com.tw/product/stargazer-%e5%ae%a4%e5%85%a7%e5%ae%9a%e4%bd%8d%e6%84%9f%e6%b8%ac%e5%99%a8/)
 
-## camera solution
+# camera solution
 From the pp. 11 of [cm4 datasheet](https://datasheets.raspberrypi.org/cm4/cm4-datasheet.pdf):
 > Camera sensors supported by the official Raspberry Pi firmware are; the OmniVision `OV5647`, Sony `IMX219` and Sony
 `IMX477`, no security device is required on Compute Module devices to use these camera sensors.
@@ -13,5 +13,9 @@ The chips listed above corresponding to the native raspberry pi [cameras](https:
 
 And there is also another 20MP camera module, [MER-2000-19U3M/C](https://www.daheng-imaging.com/products/ProductDetails.aspx?current=5&productid=2941), that use `USB3.0` to connect with raspberry pi. The camera module is similer to drone camera (a seperate camera module). From the [original post](https://forum.allaboutcircuits.com/threads/20mp-camera-on-raspberry-pi.151574/) the guy used `MER-2000-19U3C` which is not available in our region but the official website provides connecting [guild](https://www.get-cameras.com/Raspberry-Pi-with-20MP-industrial-camera) for [USB3](https://www.get-cameras.com/FAQ-ARM-Board-WITH-USB3-Camera).
 
-## flash lidar
+# flash lidar
 [comparison](https://www.dronezon.com/learn-about-drones-quadcopters/best-uses-for-time-of-flight-tof-camera-depth-sensor-technology-in-drones-or-ground-based/)
+
+# distance sensor (rangefinder)
+## vl53l1x
+The driver in PX4 `vl53l1.cpp` checks the status with `VL53L1X_GetRangeStatus()`. Status other than 0 will not publish distance value to PX4, so from **mavshell** the `listener` will get the last valid measurement. The raw value is checked by threshold value to filtered out [modulation problem](https://community.st.com/s/question/0D50X00009sUiJUSA0/out-of-range-readings-of-vl53l1x). 
