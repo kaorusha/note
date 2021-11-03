@@ -105,6 +105,7 @@ export ROS_PACKAGE_PATH=$ROS_PACKAGE_PATH:$(pwd)
 export ROS_PACKAGE_PATH=$ROS_PACKAGE_PATH:$(pwd)/Tools/sitl_gazebo
 roslaunch px4 indoor3.launch gui:=false
 ```
+> Note: current lidar use `gazebo_lidar_plugin.cpp` that will return minimum distance if facing out of range area.
 ## Laser scan for localization on ROS
 ```sh
 # shell E on remote PC
