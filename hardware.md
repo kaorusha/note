@@ -12,6 +12,12 @@ From the pp. 11 of [cm4 datasheet](https://datasheets.raspberrypi.org/cm4/cm4-da
 The chips listed above corresponding to the native raspberry pi [cameras](https://www.raspberrypi.org/documentation/accessories/camera.html). Yet there are more options can be found on [ArduCam](https://www.arducam.com/raspberry-pi-camera-solution/), including [20MP camera](https://www.arducam.com/product/arducam-20mp-imx283-camera-module-with-m12-mount-lens-and-adapter-board-for-depthai/), [MIPI Camera Modules](https://www.arducam.com/docs/cameras-for-raspberry-pi/mipi-camera-modules/), as well as information of [Connector Type](https://www.arducam.com/raspberry-pi-camera/connector-type-pinout/) and [Multi-Camera Adapter Board](https://www.arducam.com/docs/cameras-for-raspberry-pi/multi-camera-adapter-board/multi-camera-adapter-board-v2-1/). 
 
 And there is also another 20MP camera module, [MER-2000-19U3M/C](https://www.daheng-imaging.com/products/ProductDetails.aspx?current=5&productid=2941), that use `USB3.0` to connect with raspberry pi. The camera module is similer to drone camera (a seperate camera module). From the [original post](https://forum.allaboutcircuits.com/threads/20mp-camera-on-raspberry-pi.151574/) the guy used `MER-2000-19U3C` which is not available in our region but the official website provides connecting [guild](https://www.get-cameras.com/Raspberry-Pi-with-20MP-industrial-camera) for [USB3](https://www.get-cameras.com/FAQ-ARM-Board-WITH-USB3-Camera).
+
+common action camera for drone:
+* [GoPro hero 5, hero 4](https://dronesplayer.com/drones/gopro-karma-drone/)
+* [RunCam 2](https://shop.runcam.com/runcam2/)
+* [Foxeer legend 2](https://www.foxeer.com/foxeer-legend-2-uhd-camera-1080p-60fps-racing-drone-g-2)
+
 ## FPV camera, action camera
 Main difference of [FPV](https://www.dronezon.com/learn-about-drones-quadcopters/what-is-fpv-camera-fov-tvl-cmos-ccd-technology-in-drones/)(cited from [here](https://www.dronetrest.com/t/fpv-cameras-for-your-drone-what-you-need-to-know-before-you-buy-one/1441)) camera and action camera:
 | Item | FPV | action |
