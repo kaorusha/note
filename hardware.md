@@ -12,7 +12,32 @@ From the pp. 11 of [cm4 datasheet](https://datasheets.raspberrypi.org/cm4/cm4-da
 The chips listed above corresponding to the native raspberry pi [cameras](https://www.raspberrypi.org/documentation/accessories/camera.html). Yet there are more options can be found on [ArduCam](https://www.arducam.com/raspberry-pi-camera-solution/), including [20MP camera](https://www.arducam.com/product/arducam-20mp-imx283-camera-module-with-m12-mount-lens-and-adapter-board-for-depthai/), [MIPI Camera Modules](https://www.arducam.com/docs/cameras-for-raspberry-pi/mipi-camera-modules/), as well as information of [Connector Type](https://www.arducam.com/raspberry-pi-camera/connector-type-pinout/) and [Multi-Camera Adapter Board](https://www.arducam.com/docs/cameras-for-raspberry-pi/multi-camera-adapter-board/multi-camera-adapter-board-v2-1/). 
 
 And there is also another 20MP camera module, [MER-2000-19U3M/C](https://www.daheng-imaging.com/products/ProductDetails.aspx?current=5&productid=2941), that use `USB3.0` to connect with raspberry pi. The camera module is similer to drone camera (a seperate camera module). From the [original post](https://forum.allaboutcircuits.com/threads/20mp-camera-on-raspberry-pi.151574/) the guy used `MER-2000-19U3C` which is not available in our region but the official website provides connecting [guild](https://www.get-cameras.com/Raspberry-Pi-with-20MP-industrial-camera) for [USB3](https://www.get-cameras.com/FAQ-ARM-Board-WITH-USB3-Camera).
-
+## FPV camera, action camera
+Main difference of [FPV](https://www.dronezon.com/learn-about-drones-quadcopters/what-is-fpv-camera-fov-tvl-cmos-ccd-technology-in-drones/)(cited from [here](https://www.dronetrest.com/t/fpv-cameras-for-your-drone-what-you-need-to-know-before-you-buy-one/1441)) camera and action camera:
+| Item | FPV | action |
+| :----:| :----: | :----: |
+| Delay | around 40ms | most >100ms |
+| Resolution | low | high |
+| Dimension | 20mm(L) * 20mm(W) * 20mm(H) similar | 66mm(L) * 38mm(W) * 17mm(H) similar |
+| Weight | < 10g | around 50g |
+| Supplier | swift, eagle, predator, sparrow ([compare](https://www.youtube.com/watch?v=f-Wk3_4T6rg)) | [GoPro](https://youtu.be/yWv5Sp0u0VA), [RunCam 2 HD, Foxeer Legend 1](https://www.dronetrest.com/t/runcam-2-hd-vs-foxeer-legend-1/1479) |
+# Video streaming
+A brief [introduction](https://www.dronezon.com/learn-about-drones-quadcopters/learn-about-uav-antenna-fpv-live-video-transmitters-receivers/), [FPV Gear Guide](https://www.dronetrest.com/t/fpv-gear-guide-overview-on-what-to-buy/118) and recommended [receivers, monitors, and goggles](https://www.dronetrest.com/t/fpv-receivers-monitors-and-goggles-which-one-should-i-use/1505)
+## Tracking antenna
+The high end [Mobile UAV Tracking Antenna](https://uavfactory.com/en/products/tracking-antenna/portable-tracking-antenna) has a range of 62 miles (100 km).  Another is the [Veronte antenna tracker](https://www.embention.com/news/tracking-antennas-long-range-drones-uas/).
+## Antenna
+[types and wave shape](https://www.dronetrest.com/t/the-complete-guide-to-fpv-antennas-for-your-drone/1473). The helical antenna can make both omni-directional as rubber duck antenna or directional by changing the length and pitch.
+## Diversity Controllers
+Installed with receiver. Switch between omni-directional antenna and directional antenna signal. 
+[FR632](https://www.amazon.com/FR632-Raceband-Wireless-Diversity-FPV/dp/B019PZNF48/ref=as_li_ss_tl?keywords=Dual+Wireless+Diversity+Receiver+for+FPV&qid=1581621881&sr=8-3&linkCode=sl1&tag=ph4store-20&linkId=dd574a61e21d0a5252c5fb6c62f16447)
+## Power level
+5.8GHz is allowed under **FCC**(<30dBm) and **SRRC**(<28dBm), while **MIS** and **CE** only allow 2.4Ghz. [Transmitter buying guide](https://www.dronetrest.com/t/fpv-video-transmitter-buying-guide/1470) suggest 5.8GHz to get further distance. See [compare](https://www.imnobby.com/2020/02/08/dji-mavic-mini-%E5%90%84%E5%9C%B0%E5%8D%80%E5%9E%8B%E8%99%9F%E7%89%88%E6%9C%AC%E6%AF%94%E8%BC%83/). While some [DIY](https://flzen.wordpress.com/2020/08/09/dji-mini-channel-band/) users tend to modify with 2.4Ghz to get better penetration performance.
+### Video transmitter TX
+Need Both 2.4Ghz and 5.8GHz transmitter on drone. There are hundreds of this transmitter board, some options:
+* [FT951 5.8GHz](https://www.amazon.in/HobbyKing-FT951-5-8GHz-Transmitter-Certification/dp/B01MEGK6V3)
+* [TS832](https://www.amazon.com/TS832-Transmitter-Wireless-Module-Racing/dp/B06XKQ8466)
+* [250mW 5G8 7CH TX](https://www.fatshark.com/product/250mw-5g8-transmitter-v3/)
+* [2.4 Ghz transmitter](https://www.defiancerc.com/products/furious-fpv-stealth-2-4ghz-long-range-video-transmitter?variant=12729497845829)
 # flash lidar
 [comparison](https://www.dronezon.com/learn-about-drones-quadcopters/best-uses-for-time-of-flight-tof-camera-depth-sensor-technology-in-drones-or-ground-based/)
 
