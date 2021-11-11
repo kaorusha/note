@@ -11,3 +11,5 @@ Because `ffmpeg` is deprecated, use `avdec` command as this [post](https://www.l
 gst-launch-1.0 -v tcpclientsrc host=x.x.x.x port=x ! gdpdepay ! rtph264depay ! avdec_h264 ! videoconvert ! autovideosink sync=false
 ```
 ## gstream UDP
+The [legacy stack](https://www.raspberrypi.com/documentation/accessories/camera.html#libcamera-and-the-legacy-raspicam-camera-stack) performs better on raspberry pi 0 and 2 (GPU supported). Since Raspbian Bullseye it uses only [libcamera](https://www.raspberrypi.com/documentation/accessories/camera.html#network-streaming) as open source camera driver.
+* RTP protocol [command](https://www.raspberrypi.com/documentation/accessories/camera.html#using-rtp).
