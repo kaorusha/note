@@ -27,3 +27,14 @@ raspivid -n --inline -t 0 -b 5000000 -o - | gst-launch-1.0 fdsrc fd=0 ! h264pars
 # On client of another machine
 gst-launch-1.0 udpsrc address=x.x.x.x port=x caps=application/x-rtp ! rtph264depay ! h264parse ! avdec_h264 ! autovideosink
 ```
+### view video with QGC, other than gstream app
+Use the same port as set in QGC preference to see video with QGC flight view window.
+> note: QGC use the last gstream setting ran by terminal command.
+### parameter setting
+If setting `autovideosink fps-update-interval=1000` will get occasionally warning:
+```sh
+WARNING: from element /GstPipeline:pipeline0/GstUDPSink:udpsink0: Error sending UDP packets
+Additional debug info:
+gstmultiudpsink.c(729): gst_multiudpsink_send_messages (): /GstPipeline:pipeline0/GstUDPSink:udpsink0:
+client x.x.x.x:5600, reason: Error sending message: Network is unreachable
+```
