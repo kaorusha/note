@@ -4,7 +4,9 @@ On raspberry pi zero as host, install `gstream` as the [tutorial](https://platyp
 ```sh
 raspivid -fps 26 -h 450 -w 600 -vf -n -t 0 -b 200000 -o - | gst-launch-1.0 -v fdsrc ! h264parse ! rtph264pay config-interval=1 pt=96 ! gdppay ! tcpserversink host=x.x.x.x port=x
 ```
-Delay time is less than 1 sec by 5M bit rate tested in the office, and the max bit rate is 25M. The doc suggest 15M for acceptable viewing quality.
+### bit rate
+[Suggest](https://support.google.com/youtube/answer/1722171?hl=en#zippy=%2Cbitrate) 10Mbps for acceptable viewing quality for 1080p/30fps.
+Delay time is less than 1 sec by 5M bit rate tested in the office, and the max bit rate is 25M.
 ```sh
 # default using HD 1080p/30fps
 raspivid -n -t 0 -b 5000000 -o - | gst-launch-1.0 -v fdsrc ! h264parse ! rtph264pay config-interval=1 pt=96 ! gdppay ! tcpserversink host=x.x.x.x port=x
@@ -30,7 +32,7 @@ gst-launch-1.0 udpsrc address=x.x.x.x port=x caps=application/x-rtp ! rtph264dep
 ### view video with QGC, other than gstream app
 Use the same port as set in QGC preference to see video with QGC flight view window.
 > note: QGC use the last gstream setting ran by terminal command.
-### parameter setting
+### fps-update-interval
 If setting `autovideosink fps-update-interval=1000` will get occasionally warning:
 ```sh
 WARNING: from element /GstPipeline:pipeline0/GstUDPSink:udpsink0: Error sending UDP packets
