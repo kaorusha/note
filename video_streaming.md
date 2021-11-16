@@ -1,4 +1,4 @@
-# video streaming
+# video streaming within local network (cctv)
 ## gstream TCP
 On raspberry pi zero as host, install `gstream` as the [tutorial](https://platypus-boats.readthedocs.io/en/latest/source/rpi/video/video-streaming-gstreamer.html). The host is server IP, and the server will before the client starts. 
 ```sh
@@ -40,3 +40,14 @@ Additional debug info:
 gstmultiudpsink.c(729): gst_multiudpsink_send_messages (): /GstPipeline:pipeline0/GstUDPSink:udpsink0:
 client x.x.x.x:5600, reason: Error sending message: Network is unreachable
 ```
+## motion
+A video stream and motion detection package for raspberry pi to become a surveillance camera with [config](https://raspberry-valley.azurewebsites.net/Streaming-Video-with-Motion/)
+# video streaming through public ip
+[Streaming protocols](https://jasonblog.github.io/note/media_player/streaming_tong_xun_xie_ding_rtp_rtcp_rtsp_rtmp_hls.html)
+## port forwarding
+This method requires the access as well as password of the wifi router in order to change the port config.
+## Nginx
+[Enabling Video Streaming for Remote Learning with NGINX and NGINX Plus](https://www.nginx.com/blog/video-streaming-for-remote-learning-with-nginx/)
+[Setting up HLS live streaming server using NGINX + nginx-rtmp-module on Ubuntu](https://docs.peer5.com/guides/setting-up-hls-live-streaming-server-using-nginx/)
+[Create your own video streaming server with Linux](https://opensource.com/article/19/1/basic-live-video-streaming-server)
+[8 Free & Best Open source Video Streaming Servers Software](https://www.how2shout.com/tools/free-best-open-source-video-streaming-servers-software.html)

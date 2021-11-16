@@ -50,3 +50,4 @@ Need Both 2.4Ghz and 5.8GHz transmitter on drone. There are hundreds of this tra
 # distance sensor (rangefinder)
 ## vl53l1x
 The driver in PX4 `vl53l1.cpp` checks the status with `VL53L1X_GetRangeStatus()`. Status other than 0 will not publish distance value to PX4, so from **mavshell** the `listener` will get the last valid measurement. The raw value is checked by threshold value to filtered out [modulation problem](https://community.st.com/s/question/0D50X00009sUiJUSA0/out-of-range-readings-of-vl53l1x). 
+# PCB antenna
