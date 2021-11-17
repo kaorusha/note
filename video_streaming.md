@@ -41,11 +41,18 @@ gstmultiudpsink.c(729): gst_multiudpsink_send_messages (): /GstPipeline:pipeline
 client x.x.x.x:5600, reason: Error sending message: Network is unreachable
 ```
 ## motion
-A video stream and motion detection package for raspberry pi to become a surveillance camera with [config](https://raspberry-valley.azurewebsites.net/Streaming-Video-with-Motion/)
-# video streaming through public ip
-[Streaming protocols](https://jasonblog.github.io/note/media_player/streaming_tong_xun_xie_ding_rtp_rtcp_rtsp_rtmp_hls.html)
-## port forwarding
+A video stream and motion detection package for raspberry pi to become a surveillance camera with [config](https://raspberry-valley.azurewebsites.net/Streaming-Video-with-Motion/). Enable **port forwarding** of the wifi router to stream the video to public network.
+> note: **Ring** doorbell works the same as above.  
+
+## port forwarding to public network
 This method requires the access as well as password of the wifi router in order to change the port config.
+
+# video streaming server
+Capable of streaming through public ip, and store the data for playback.
+[Streaming protocols](https://jasonblog.github.io/note/media_player/streaming_tong_xun_xie_ding_rtp_rtcp_rtsp_rtmp_hls.html)
+## AWS kinesis
+[Cost](https://aws.amazon.com/tw/kinesis/video-streams/pricing/?nc=sn&loc=3) base on the data flow.
+> note: **Ring** offer an optional monthly cost [subscription](https://ring.com/protect-plans) per device for customers video storage for maximum [60 days](https://support.ring.com/hc/en-us/articles/360047871752-Understanding-and-Adjusting-Your-Video-Storage-Time-).
 ## Nginx
 [Enabling Video Streaming for Remote Learning with NGINX and NGINX Plus](https://www.nginx.com/blog/video-streaming-for-remote-learning-with-nginx/)
 [Setting up HLS live streaming server using NGINX + nginx-rtmp-module on Ubuntu](https://docs.peer5.com/guides/setting-up-hls-live-streaming-server-using-nginx/)
