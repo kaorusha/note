@@ -1,6 +1,7 @@
 # video streaming within local network (cctv)
+when creating video we can use `v4l2src device=/dev/video0` to replace `raspivid`, and use `v4l2h264enc` to replace the deprecated `omxh264enc` as this complete and updated [example](https://qengineering.eu/install-gstreamer-1.18-on-raspberry-pi-4.html).
 ## gstream TCP
-On raspberry pi zero as host, install `gstream` as the [tutorial](https://platypus-boats.readthedocs.io/en/latest/source/rpi/video/video-streaming-gstreamer.html). The host is server IP, and the server will before the client starts. 
+On raspberry pi zero as host, install `gstreamer` as the [tutorial](https://platypus-boats.readthedocs.io/en/latest/source/rpi/video/video-streaming-gstreamer.html). The host is server IP, and the server will before the client starts. 
 ```sh
 raspivid -fps 26 -h 450 -w 600 -vf -n -t 0 -b 200000 -o - | gst-launch-1.0 -v fdsrc ! h264parse ! rtph264pay config-interval=1 pt=96 ! gdppay ! tcpserversink host=x.x.x.x port=x
 ```
@@ -31,7 +32,7 @@ gst-launch-1.0 udpsrc address=x.x.x.x port=x caps=application/x-rtp ! rtph264dep
 ```
 ### view video with QGC, other than gstream app
 Use the same port as set in QGC preference to see video with QGC flight view window.
-> note: QGC use the last gstream setting ran by terminal command.
+> note: QGC use the last user changed gstream setting. QGC also support other [protocols](https://docs.qgroundcontrol.com/master/en/SettingsView/General.html#video).
 ### fps-update-interval
 If setting `autovideosink fps-update-interval=1000` will get occasionally warning:
 ```sh
@@ -49,12 +50,24 @@ This method requires the access as well as password of the wifi router in order 
 
 # video streaming server
 Capable of streaming through public ip, and store the data for playback.
-[Streaming protocols](https://jasonblog.github.io/note/media_player/streaming_tong_xun_xie_ding_rtp_rtcp_rtsp_rtmp_hls.html)
+[Streaming protocols](https://jasonblog.github.io/note/media_player/streaming_tong_xun_xie_ding_rtp_rtcp_rtsp_rtmp_hls.html) and [compare](https://blog.csdn.net/leixiaohua1020/article/details/18893769)
+[concept diagram](https://forums.raspberrypi.com/viewtopic.php?t=207639)
+## push stream with encoder to remote rtmp server
+[with ffmpeg](https://forums.raspberrypi.com/viewtopic.php?t=173230)
+[compare ffmpeg and gstreamer](https://blog.gtwang.org/iot/raspberry-pi-nginx-rtmp-server-live-streaming/)
+[to youtube](https://qengineering.eu/install-gstreamer-1.18-on-raspberry-pi-4.html)
+## run remote rtmp server
+[docker](https://hub.docker.com/r/jasonrivers/nginx-rtmp)
 ## AWS kinesis
 [Cost](https://aws.amazon.com/tw/kinesis/video-streams/pricing/?nc=sn&loc=3) base on the data flow.
 > note: **Ring** offer an optional monthly cost [subscription](https://ring.com/protect-plans) per device for customers video storage for maximum [60 days](https://support.ring.com/hc/en-us/articles/360047871752-Understanding-and-Adjusting-Your-Video-Storage-Time-).
-## Nginx
-[Enabling Video Streaming for Remote Learning with NGINX and NGINX Plus](https://www.nginx.com/blog/video-streaming-for-remote-learning-with-nginx/)
-[Setting up HLS live streaming server using NGINX + nginx-rtmp-module on Ubuntu](https://docs.peer5.com/guides/setting-up-hls-live-streaming-server-using-nginx/)
-[Create your own video streaming server with Linux](https://opensource.com/article/19/1/basic-live-video-streaming-server)
+## Nginx rtmp
+* [Enabling Video Streaming for Remote Learning with NGINX and NGINX Plus](https://www.nginx.com/blog/video-streaming-for-remote-learning-with-nginx/)
+* [compare encoder](https://dotblogs.com.tw/RichardNote/2018/10/29/002238)
+* [Setting up HLS live streaming server using NGINX + nginx-rtmp-module on Ubuntu](https://docs.peer5.com/guides/setting-up-hls-live-streaming-server-using-nginx/)
+* [Create your own video streaming server with Linux](https://opensource.com/article/19/1/basic-live-video-streaming-server)
+## rtsp
+[rtsp-simple-server](https://malagege.github.io/blog/2021/08/22/Raspberry-pi-%E6%94%9D%E5%BD%B1%E6%A9%9F%E8%A8%88%E7%95%AB/)
+## server software
 [8 Free & Best Open source Video Streaming Servers Software](https://www.how2shout.com/tools/free-best-open-source-video-streaming-servers-software.html)
+##
