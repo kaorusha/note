@@ -51,3 +51,9 @@ Need Both 2.4Ghz and 5.8GHz transmitter on drone. There are hundreds of this tra
 ## vl53l1x
 The driver in PX4 `vl53l1.cpp` checks the status with `VL53L1X_GetRangeStatus()`. Status other than 0 will not publish distance value to PX4, so from **mavshell** the `listener` will get the last valid measurement. The raw value is checked by threshold value to filtered out [modulation problem](https://community.st.com/s/question/0D50X00009sUiJUSA0/out-of-range-readings-of-vl53l1x). 
 # PCB antenna
+# Frame
+## FPV
+* [Kopis CineWhoop 3"](https://shop.holybro.com/spare-parts-kopis-cinewhoop_p1199.html) with [Tmotor F1507 kv3800(Stardard)](https://www.getfpv.com/t-motor-f1507-v1-2700kv-3800kv-motor.html) with T3140 propeller: 50% throttle 238.14g * 4 - 237g frame - 150g [battery](https://www.ruten.com.tw/item/show?22033087757284) = 565.6g for the rest devices
+* [Kopis cinewhoop 2.5"](https://shop.holybro.com/kopis-cinewhoop25quot-kiss-aio-hd-polar-free-shipping_p1293.html) with [Tmotor F1404 KV3800](https://www.aliexpress.com/item/1005001994612066.html) with GF3016 propeller (not official Gemfan D63-5B which might be higher thrust with 5 blades): 50% throttle 158.01g * 4 - 155.2g frame - 101.6g [battery](https://shopee.tw/格氏原廠-TATTU-3S-4S-650-850mAh-14.8V-75C-暴力電池-i.5198380.7441715740) = 375g for the rest devices. (Take-off Weight: 249g from website)
+* [MindRacer](http://drupal.xitronet.com/?q=catalog/20)
+* [Kopis2 6S V2 5"](https://shop.holybro.com/kopis2-6s-v2free-shipping_p1169.html)
