@@ -87,13 +87,24 @@ roslaunch px4 bringup.launch
 # shell D (on companion computer with lidar)
 mavlink-routerd -e <remote PC IP>:14540 -e <remote PC IP>:14550
 ```
+### manual start sensor driver
 open QGC and to the Mavlink shell
 ```sh
 # start distance sensor driver
 nsh> vl53l1x start -X -b 4
 nsh> vl53l1x start -X -b 2 -R 24
 ```
-> note: set [SENS_EN_VL53L1X](https://docs.px4.io/master/en/advanced_config/parameter_reference.html#SENS_EN_VL53L1X) to true to start all driver at startup with [default setting](https://docs.px4.io/master/en/modules/modules_driver_distance_sensor.html#vl53l1x). When using multiple distance sensors, disable `SENS_EN_VL53L1X` and add extra startup [script](https://docs.px4.io/master/en/concept/system_startup.html#starting-additional-applications) to specify each sensor [port](http://www.holybro.com/manual/Pixhawk4-Pinouts.pdf) and [orientation](https://docs.px4.io/master/en/advanced_config/parameter_reference.html#SENS_CM8JL65_R_0) (defined as [MAV_SENSOR_ORIENTATION](https://mavlink.io/en/messages/common.html#DISTANCE_SENSOR)).
+> Note: Set [SENS_EN_VL53L1X](https://docs.px4.io/master/en/advanced_config/parameter_reference.html#SENS_EN_VL53L1X) to true to start all driver at startup with [default setting](https://docs.px4.io/master/en/modules/modules_driver_distance_sensor.html#vl53l1x).
+### auto start sensor driver
+When using multiple distance sensors, disable `SENS_EN_VL53L1X` and add extra startup [script](https://docs.px4.io/master/en/concept/system_startup.html#starting-additional-applications) to specify each sensor [port](http://www.holybro.com/manual/Pixhawk4-Pinouts.pdf) and [orientation](https://docs.px4.io/master/en/advanced_config/parameter_reference.html#SENS_CM8JL65_R_0) (defined as [MAV_SENSOR_ORIENTATION](https://mavlink.io/en/messages/common.html#DISTANCE_SENSOR)).
+```sh
+# read SD card of FMU on PC
+cd <dir of sd card>
+mkdir etc && cd etc
+touch extras.txt
+# and paste the script intended to run in the nsh
+```
+> Note: The files in the /fs/microsd/etc will exist after rebuilt firmware.
 ## PX4 Simulation with SITL gazebo
 Replace the previous steps with the following [steps](http://docs.px4.io/master/en/simulation/ros_interface.html#launching-gazebo-with-ros-wrappers). Rebuild after changing `.sdf` file. ([troubleshooting](http://docs.px4.io/master/en/dev_setup/building_px4.html#general-build-errors))
 ```sh
