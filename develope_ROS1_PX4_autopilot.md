@@ -68,7 +68,7 @@ roscore
 Check and export `ROS_MASTER_URI` and `ROS_HOSTNAME` on the companion computer
 ```sh
 # shell B (on companion computer with lidar)
-source /opt/ros/noetic/setup.bash
+source /opt/ros/melodic/setup.bash
 source catkin_ws/devel/setup.bash
 roslaunch ldlidar LD06.launch
 # of using uart GPIO port, using the following command (the lidar driver is from our modified branch)
