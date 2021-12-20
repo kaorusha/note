@@ -57,6 +57,8 @@ When `mavros` runs on a companion computer like single board computer mounted on
 If `QGC` run on remote PC, SSH to companion computer and launch `mavros` use this [command](https://blog.csdn.net/qq_38649880/article/details/88342904) and use the IP of the remote PC `gcs_url:=udp://@xxx.xxx.xxx.xxx` or search udp automatically: `gcs_url:=udp-b://@`.
 
 # Use /mavros/vision/pose to do auto takeoff and navigation
+> note: 
+when debugging, Pixhawk 4 will start warning beap when not giving arm command after a long time. Disconnect the power input port to stop the warning beap while the USB port con still supply power for the board and other sensors.
 ## PX4 on real machine
 Check and export `ROS_MASTER_URI`
 ```sh
