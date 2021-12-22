@@ -122,14 +122,14 @@ roslaunch px4 indoor3.launch gui:=false
 ## Laser scan for localization on ROS
 ```sh
 # shell E on remote PC
-cd <laser slam script file directory>
+cd <XTDrone>/sensing/slam/laser_slam/script/
 source /opt/ros/noetic/setup.bash
 python3 vehicle_visual_odom_pub.py iris_rplidar 0 2d /poseupdate
 ```
 > for simulation, remember to modify parameter `/use_sim_time` to true in the `hector_slam_xtdrone.launch` file.
 ```sh
 # shell F on remote PC
-cd <hector slam launch file directory>
+cd <XTDrone>/sensing/slam/laser_slam/hector_slam/
 source /opt/ros/noetic/setup.bash
 roslaunch hector_slam_xtdrone.launch
 ```
