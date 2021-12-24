@@ -57,3 +57,5 @@ The driver in PX4 `vl53l1.cpp` checks the status with `VL53L1X_GetRangeStatus()`
 * [Kopis cinewhoop 2.5"](https://shop.holybro.com/kopis-cinewhoop25quot-kiss-aio-hd-polar-free-shipping_p1293.html) with [Tmotor F1404 KV3800](https://www.aliexpress.com/item/1005001994612066.html) with GF3016 propeller (not official Gemfan D63-5B which might be higher thrust with 5 blades): 50% throttle 158.01g * 4 - 155.2g frame - 101.6g [battery](https://shopee.tw/格氏原廠-TATTU-3S-4S-650-850mAh-14.8V-75C-暴力電池-i.5198380.7441715740) = 375g for the rest devices. (Take-off Weight: 249g from website)
 * [MindRacer](http://drupal.xitronet.com/?q=catalog/20)
 * [Kopis2 6S V2 5"](https://shop.holybro.com/kopis2-6s-v2free-shipping_p1169.html)
+# ESC
+[BLHeli-S ESC 20A](https://shop.holybro.com/spare-parts-x500-kit_p1252.html) Supports Dshot150, Dshot300 and Dshot600.

@@ -212,3 +212,5 @@ For mission mode to enable avoidance, the avoidance node subscribe `/mavros/miss
 ```cpp
 void AvoidanceNode::missionCallback(const mavros_msgs::WaypointList& msg)
 ```
+# motor_test
+From the time writing, the timeout `-t` and power level `-p` option is only support by [Dshot](https://github.com/PX4/PX4-Autopilot/issues/16547#issuecomment-832560211), not by PWM, which only runs the motor for 1 sec with 100% power. To enable Dshot control, set `SYS_USE_IO` = 0 and set `DSHOT_CONFIG` to the highest speed supported by ESC, and then reboot. Connect ESC signal with the FCU port [FMU PWM OUT](https://docs.px4.io/master/en/peripherals/dshot.html#wiring-connections), other than `IO PWM OUT`.
