@@ -72,9 +72,10 @@ Check and export `ROS_MASTER_URI` and `ROS_HOSTNAME` on the companion computer
 # shell B (on companion computer with lidar)
 source /opt/ros/melodic/setup.bash
 source catkin_ws/devel/setup.bash
+# default using uart GPIO port
 roslaunch ldlidar LD06.launch
-# of using uart GPIO port, using the following command (the lidar driver is from our modified branch)
-roslaunch ldlidar LD06.launch device:=/dev/ttyS0
+# of using CP2102 usb adapter, using the following command (the lidar driver is from our modified branch)
+roslaunch ldlidar LD06.launch device:=""
 ```
 ```sh
 # shell C on remote PC
@@ -154,6 +155,12 @@ cd <XTDrone>/motion_planning/2d/
 source /opt/ros/noetic/setup.bash
 roslaunch launch/2d_motion_planning.launch # note the dir_name is motion_planning
 ```
+# roslaunch on startup
+## Get ROS_HOSTNAME automatically
+The `~/.bashrc` file specifies `ROS_HOSTNAME` and `ROS_MASTER_URI`. These IP addresses must be set [explicitly](http://wiki.ros.org/ROS/NetworkSetup). However, the `hostname` can output raspberry pi's current IP, so we don't need to change `~/.bashrc` every time when IP changed, but the output IP add an space ant the end, so the "xxx.xxx.xxx.xxx" becomes "xxx.xxx.xxx.xxx ", and the IP can't be set correctly. To [trim the ending space](https://stackoverflow.com/questions/369758/how-to-trim-whitespace-from-a-bash-variable):
+```sh
+export ROS_HOSTNAME="$(echo -e "$(hostname -I)" | xargs)"
+```  
 ### Troubleshooting
 #### Given velocity for `setpoint_raw` with position masked and result in overshoot at the goal position and pullback repeatedly
 Lower `MPC_XY_CRUISE` and `MC_YAWRATE_MAX` limit. The flight stack use `MPC_XY_CRUISE` as speed limit for offboard `PositionTarget`. And we can set the bitmask to select position or velocity control. When ignoring velocity setpoint, the flight stack will take care of speed control and slow down near goal. When ignoring position setpoint, the speed is calculated by offboard controller so the speed limit is crucial.
@@ -214,3 +221,8 @@ void AvoidanceNode::missionCallback(const mavros_msgs::WaypointList& msg)
 ```
 # motor_test
 From the time writing, the timeout `-t` and power level `-p` option is only support by [Dshot](https://github.com/PX4/PX4-Autopilot/issues/16547#issuecomment-832560211), not by PWM, which only runs the motor for 1 sec with 100% power. To enable Dshot control, set `SYS_USE_IO` = 0 and set `DSHOT_CONFIG` to the highest speed supported by ESC, and then reboot. Connect ESC signal with the FCU port [FMU PWM OUT](https://docs.px4.io/master/en/peripherals/dshot.html#wiring-connections), other than `IO PWM OUT`.
+
+# PID tuning
+PID value of [F330](https://discuss.px4.io/t/f330-vibration-problem/16852). Avoid setting p gain too low, or the i gain too large to prevent the [integrator windup](https://discuss.px4.io/t/f330-vibration-problem/16852/4).
+## lose height suddenly when hovering
+https://discuss.px4.io/t/multicopter-drops-the-altitude-hold-in-posctl-video-attached/18600
