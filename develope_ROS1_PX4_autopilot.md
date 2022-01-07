@@ -33,8 +33,8 @@ The [repo](https://github.com/mavlink-router/mavlink-router) and the [config fil
 Get the following warning message:
 ```sh
 # Mavlink-router can send both to mavros by 14540 and to GCS by 14550
-$ mavlink-routerd -e 172.16.173.203:14540 -e 172.16.173.203:14550
-Open UDP [4] 172.16.173.203:14550  
+$ mavlink-routerd -e x.x.x.x:14540 -e x.x.x.x:14550 # x.x.x.x IP of ground control station 
+Open UDP [4] x.x.x.x:14550  
 Error while trying to write serial port latency: Unknown error -1
 Open UART [5] /dev/ttyACM0 *
 UART [5] speed = 115200
@@ -155,12 +155,6 @@ cd <XTDrone>/motion_planning/2d/
 source /opt/ros/noetic/setup.bash
 roslaunch launch/2d_motion_planning.launch # note the dir_name is motion_planning
 ```
-# roslaunch on startup
-## Get ROS_HOSTNAME automatically
-The `~/.bashrc` file specifies `ROS_HOSTNAME` and `ROS_MASTER_URI`. These IP addresses must be set [explicitly](http://wiki.ros.org/ROS/NetworkSetup). However, the `hostname` can output raspberry pi's current IP, so we don't need to change `~/.bashrc` every time when IP changed, but the output IP add an space ant the end, so the "xxx.xxx.xxx.xxx" becomes "xxx.xxx.xxx.xxx ", and the IP can't be set correctly. To [trim the ending space](https://stackoverflow.com/questions/369758/how-to-trim-whitespace-from-a-bash-variable):
-```sh
-export ROS_HOSTNAME="$(echo -e "$(hostname -I)" | xargs)"
-```  
 ### Troubleshooting
 #### Given velocity for `setpoint_raw` with position masked and result in overshoot at the goal position and pullback repeatedly
 Lower `MPC_XY_CRUISE` and `MC_YAWRATE_MAX` limit. The flight stack use `MPC_XY_CRUISE` as speed limit for offboard `PositionTarget`. And we can set the bitmask to select position or velocity control. When ignoring velocity setpoint, the flight stack will take care of speed control and slow down near goal. When ignoring position setpoint, the speed is calculated by offboard controller so the speed limit is crucial.
@@ -226,3 +220,65 @@ From the time writing, the timeout `-t` and power level `-p` option is only supp
 PID value of [F330](https://discuss.px4.io/t/f330-vibration-problem/16852). Avoid setting p gain too low, or the i gain too large to prevent the [integrator windup](https://discuss.px4.io/t/f330-vibration-problem/16852/4).
 ## lose height suddenly when hovering
 https://discuss.px4.io/t/multicopter-drops-the-altitude-hold-in-posctl-video-attached/18600
+
+# Start applications on boot up
+## Get ROS_HOSTNAME automatically
+The `~/.bashrc` file specifies `ROS_HOSTNAME` and `ROS_MASTER_URI`. These IP addresses must be set [explicitly](http://wiki.ros.org/ROS/NetworkSetup). However, the `hostname` can output raspberry pi's current IP, so we don't need to change `~/.bashrc` every time when IP changed, but the output IP add an space ant the end, so the "xxx.xxx.xxx.xxx" becomes "xxx.xxx.xxx.xxx ", and the IP can't be set correctly. To [trim the ending space](https://stackoverflow.com/questions/369758/how-to-trim-whitespace-from-a-bash-variable):
+```sh
+export ROS_HOSTNAME="$(echo -e "$(hostname -I)" | xargs)"
+```
+## Get ROS_MASTER_URI
+For multiple machine running master and slave ros application, `ROS_MASTER_URI` needs to changed manually at current, but can be done automatically by the following script: 
+```sh
+#!/bin/bash
+for ip in x.x.x.{1..254}; do # search LAN
+  # delete old arp recording
+  sudo arp -d $ip > /dev/null 2>&1
+  # ping for new arp info
+  ping -c 5 $ip > /dev/null 2>&1 &
+done
+# wait for all background ping over
+wait
+# list the ARP table
+arp -n | grep -v incomplete | grep 'yy:yy:yy:yy:yy:yy' # master PC MAC
+```
+## robot_upstart
+[Many ways](https://www.dexterindustries.com/howto/run-a-program-on-your-raspberry-pi-at-startup/#systemd) to run program on startup, for scrips relies on any system features being available at that point in time such as the network being connected and available, it would be ideal to use either systemd or init.d methods. Ros package `robot_upstart` uses `systemd` to generate service and script files in systemd [directories](https://askubuntu.com/questions/676007/how-do-i-make-my-systemd-service-run-via-specific-user-and-start-on-boot).
+> For raspberry pi zero w with customized installed melodic, install it from source by clone the package to `catkin_ws` and `catkin_make`. Dependencies like `daemontools` and `roslint` also needed.
+
+Follow the [tutorial](https://roboticsbackend.com/make-ros-launch-start-on-boot-with-robot_upstart/) to run robot_upstart with:
+```sh
+rosrun robot_upstart install package_name/launch_dir/launch_file.launch --job name-ignoring-dash --interface wlan0 --logdir ~/dir.log --master http://xxx.xxx.xxx.xxx:11311 --user username --symlink
+``` 
+The launch file can include many other launch files and start multiple nodes.
+**--user** specify the service owner like `User=` in the `.service` default root but prefer user name.
+**--symlink** created a link to the launch file of workspace, not copy. Check the definition of options:
+```sh
+rosrun robot_upstart install -h 
+```
+Modify the generated service file `/lib/systemd/system/jobname.service` as [this](https://github.com/clearpathrobotics/robot_upstart/issues/71) to solve the error:
+```sh
+No IP address on wlan0, cannot roslaunch.
+```
+Modify the generated script `/usr/sbin/jobname-start` to change `ROS_MASTER_URI`.
+## Enable UART serial port on boot
+If the program reads data from sensor, chmod by custom udev rules by [port](https://robot-ros.com/robot/35322.html) or by [group](https://roboticsbackend.com/make-ros-launch-start-on-boot-with-robot_upstart/), or node and topic shows up but can't echo topics.
+```sh
+$ ll /dev/ttyS0
+crw-rw-rw- 1 root dialout 4, 64 Jan  7 13:04 /dev/ttyS0 # the result should be 0666
+```
+## Create systemd service
+Systemd service can open mavlink-router, also Roslaunch can also run on system startup like [this](https://community.emlid.com/t/best-way-to-start-up-everything-on-boot/8480/4) using `/bin/bash` to run sh command and [roscore](https://blog.roverrobotics.com/how-to-run-ros-on-startup-bootup/). But not successful running roscore on remote master so far. Note the bin should be absolute directory:
+```sh
+[Unit]
+Description="MAVLink Router"
+After=networking.service network-online.target time-sync.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/mavlink-routerd -e x.x.x.x:14540 -e x.x.x.x:14550 # so far the ip is hard coded
+User=username
+
+[Install]
+WantedBy=multi-user.target
+```
