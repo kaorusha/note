@@ -282,3 +282,4 @@ User=username
 [Install]
 WantedBy=multi-user.target
 ```
+Also refer to this [example](https://docs.px4.io/master/en/flight_controller/beaglebone_blue.html#autostart-during-boot).
