@@ -1,0 +1,1 @@
+* [several log libraries](https://stackoverflow.com/questions/52357/what-is-the-point-of-clog)
